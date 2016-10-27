@@ -1,6 +1,7 @@
 package com.github.thushear.bigdata.mapreduce;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,6 +11,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -17,7 +20,7 @@ import java.util.StringTokenizer;
 /**
  * Created by kongming on 2016/10/26.
  */
-public class WordCountMapReduce {
+public class WordCountMapReduce extends Configured implements Tool{
 
 
   // Map class
@@ -30,6 +33,16 @@ public class WordCountMapReduce {
     private Text mapperOutKey = new Text();
 
     private final IntWritable mapperOutValue = new IntWritable(1);
+
+    @Override
+    public void cleanup(Context context) throws IOException, InterruptedException {
+      super.cleanup(context);
+    }
+
+    @Override
+    public void setup(Context context) throws IOException, InterruptedException {
+      super.setup(context);
+    }
 
     @Override
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -64,6 +77,16 @@ public class WordCountMapReduce {
       outputValue.set(sum);
       context.write(key, outputValue);
     }
+
+    @Override
+    public void cleanup(Context context) throws IOException, InterruptedException {
+      super.cleanup(context);
+    }
+
+    @Override
+    public void setup(Context context) throws IOException, InterruptedException {
+      super.setup(context);
+    }
   }
 
 
@@ -92,10 +115,26 @@ public class WordCountMapReduce {
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    //shuffle  start
+    // partitioner
+//    job.setPartitionerClass(cls);
+
+    //sort
+//    job.setSortComparatorClass(cls);
+    // combiner
+//    job.setCombinerClass(cls);
+    // group
+//    job.setGroupingComparatorClass(cls);
+
+    //shuffle  end
+
     // reduce
     job.setReducerClass(WordCountReducer.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
+
+    // set reducer task num
+//    job.setNumReduceTasks();
 
     // output
     Path outPath = new Path(args[1]);
@@ -109,8 +148,10 @@ public class WordCountMapReduce {
 
 
   public static void main(String[] args) throws Exception {
-    int status = new WordCountMapReduce().run(args);
-    System.exit(1);
+//    int status = new WordCountMapReduce().run(args);
+    Configuration configuration = new Configuration();
+    int status = ToolRunner.run(configuration,new WordCountMapReduce(),args);
+    System.exit(status);
   }
 
 
