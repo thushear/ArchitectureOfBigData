@@ -21,4 +21,15 @@
         <name>fs.defaultFS</name>
         <value>hdfs://hadoop-master:9000/</value>
     </property>
+
+  <!-- OOZIE -->
+  <property>
+    <name>hadoop.proxyuser.root.hosts</name>
+    <value>hadoop-master</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.root.groups</name>
+    <value>*</value>
+  </property>
+
 </configuration>

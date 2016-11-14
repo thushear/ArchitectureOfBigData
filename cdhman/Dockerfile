@@ -11,7 +11,7 @@ RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted un
 WORKDIR /root
 
 # install openssh-server, openjdk and wget
-RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget vim
+RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget vim  zip
 # install hadoop 2.7.2
 COPY   hadoop-2.5.0-cdh5.3.6.tar.gz  /tmp/
 RUN   tar -xzvf /tmp/hadoop-2.5.0-cdh5.3.6.tar.gz -C /tmp/  && \
@@ -30,7 +30,11 @@ RUN   tar -xzvf /tmp/hive-0.13.1-cdh5.3.6.tar.gz -C /tmp/  && \
 COPY   mysql-connector-java-5.1.27-bin.jar  /tmp/
 RUN  mv /tmp/mysql-connector-java-5.1.27-bin.jar /usr/local/hive/lib
 
-
+COPY   oozie-4.0.0-cdh5.3.6.tar.gz  /tmp/
+RUN   tar -xzvf /tmp/oozie-4.0.0-cdh5.3.6.tar.gz -C /tmp/  && \
+      mv /tmp/oozie-4.0.0-cdh5.3.6 /usr/local/oozie-4.0.0-cdh5.3.6 && \
+      rm /tmp/oozie-4.0.0-cdh5.3.6.tar.gz
+COPY   ext-2.2.zip  /tmp/
 
 
 
