@@ -33,4 +33,21 @@
 		<value>true</value>
 		<description>Whether to include the current database in the Hive prompt.</description>
 	</property>
+
+  <!-- HiveServer2 -->
+  <property>
+    <name>hive.server2.thrift.port</name>
+    <value>10000</value>
+  </property>
+
+  <property>
+    <name>hive.server2.thrift.bind.host</name>
+    <value>hadoop-master</value>
+  </property>
+
+  <!--HiveMetastore-->
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hadoop-master:9083</value>
+  </property>
 </configuration>

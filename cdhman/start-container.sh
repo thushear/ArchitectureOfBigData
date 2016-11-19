@@ -13,10 +13,12 @@ sudo docker run -itd \
                 -p 8088:8088 \
                 -p 11000:11000 \
                 -p 30022:22 \
+                -p 9000:9000 \
                 -p 19888:19888 \
+                -p 8000:8000 \
                 --name hadoop-master \
                 --hostname hadoop-master \
-                cdh/hadoop:4.0 &> /dev/null
+                cdh/hadoop:6.0 &> /dev/null
 
 
 # start hadoop slave container
@@ -30,7 +32,7 @@ do
 	                -P    \
 	                --name hadoop-slave$i \
 	                --hostname hadoop-slave$i \
-	                cdh/hadoop:4.0 &> /dev/null
+	                cdh/hadoop:6.0 &> /dev/null
 	i=$(( $i + 1 ))
 done
 
