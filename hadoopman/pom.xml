@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.thushear.bigdata</groupId>
-	<artifactId>hadooplearn</artifactId>
+	<artifactId>hadoopman</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hadooplearn</name>
-	<description>hadooplearn</description>
+	<name>hadoopman</name>
+	<description>hadoopman</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

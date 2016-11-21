@@ -16,6 +16,10 @@ sudo docker run -itd \
                 -p 9000:9000 \
                 -p 19888:19888 \
                 -p 8000:8000 \
+                -p 60010:60010 \
+                -p 60020:60020 \
+                -p 60030:60030 \
+                -p 2181:2181 \
                 --name hadoop-master \
                 --hostname hadoop-master \
                 cdh/hadoop:6.0 &> /dev/null
