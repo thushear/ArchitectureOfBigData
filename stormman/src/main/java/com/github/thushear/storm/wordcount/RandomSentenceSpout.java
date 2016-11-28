@@ -19,6 +19,8 @@ public class RandomSentenceSpout extends BaseRichSpout {
   SpoutOutputCollector _collector;
   Random _rand;
 
+  String[] words = new String[]{"a b c d","e f g a","b c d e f"};
+
   @Override
   public void open(Map map, TopologyContext topologyContext, SpoutOutputCollector spoutOutputCollector) {
     _collector = spoutOutputCollector;
@@ -27,7 +29,7 @@ public class RandomSentenceSpout extends BaseRichSpout {
 
   @Override
   public void nextTuple() {
-     String[] words = new String[]{"a b c d","e f g a","b c d e f"};
+
 //     String emitString = words[_rand.nextInt(words.length )];
     for (String sentence : words) {
       System.err.println(Thread.currentThread().getName() + " sentence:" + sentence);

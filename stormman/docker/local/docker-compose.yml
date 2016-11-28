@@ -6,7 +6,7 @@ services:
     environment:
       - SERVER_ID=1
       - ADDITIONAL_ZOOKEEPER_1=server.1=0.0.0.0:2888:3888
-      - ADDITIONAL_ZOOKEEPER_2=server.2=zk2.cloud:2888:3888 
+      - ADDITIONAL_ZOOKEEPER_2=server.2=zk2.cloud:2888:3888
       - ADDITIONAL_ZOOKEEPER_3=server.3=zk3.cloud:2888:3888
   zookeeper2:
     image: registry.aliyuncs.com/denverdino/zookeeper:3.4.8
@@ -14,7 +14,7 @@ services:
     environment:
       - SERVER_ID=2
       - ADDITIONAL_ZOOKEEPER_1=server.1=zk1.cloud:2888:3888
-      - ADDITIONAL_ZOOKEEPER_2=server.2=0.0.0.0:2888:3888 
+      - ADDITIONAL_ZOOKEEPER_2=server.2=0.0.0.0:2888:3888
       - ADDITIONAL_ZOOKEEPER_3=server.3=zk3.cloud:2888:3888
   zookeeper3:
     image: registry.aliyuncs.com/denverdino/zookeeper:3.4.8
@@ -22,10 +22,10 @@ services:
     environment:
       - SERVER_ID=3
       - ADDITIONAL_ZOOKEEPER_1=server.1=zk1.cloud:2888:3888
-      - ADDITIONAL_ZOOKEEPER_2=server.2=zk2.cloud:2888:3888 
+      - ADDITIONAL_ZOOKEEPER_2=server.2=zk2.cloud:2888:3888
       - ADDITIONAL_ZOOKEEPER_3=server.3=0.0.0.0:2888:3888
   ui:
-    image: registry.aliyuncs.com/denverdino/baqend-storm:1.0.0
+    image: thushear/storm:2.0
     command: ui -c nimbus.host=nimbus
     environment:
       - STORM_ZOOKEEPER_SERVERS=zk1.cloud,zk2.cloud,zk3.cloud
@@ -36,16 +36,17 @@ services:
     depends_on:
       - nimbus
   nimbus:
-    image: registry.aliyuncs.com/denverdino/baqend-storm:1.0.0
+    image: thushear/storm:2.0
     command: nimbus -c nimbus.host=nimbus
     restart: always
     environment:
       - STORM_ZOOKEEPER_SERVERS=zk1.cloud,zk2.cloud,zk3.cloud
     container_name: nimbus
     ports:
-      - 6627:6627
+     - "6627:6627"
+     - "50022:22"
   supervisor:
-    image: registry.aliyuncs.com/denverdino/baqend-storm:1.0.0
+    image: thushear/storm:2.0
     command: supervisor -c nimbus.host=nimbus -c supervisor.slots.ports=[6700,6701,6702,6703]
     restart: always
     environment:
@@ -60,6 +61,6 @@ services:
       - nimbus
 networks:
   default:
-    external: 
+    external:
       name: test-storm
 
