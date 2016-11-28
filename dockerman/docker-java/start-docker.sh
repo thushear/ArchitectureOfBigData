@@ -7,3 +7,4 @@ docker run -itd  -p 10022:22 \
     thushear/java:1.0 &> /dev/null
 docker exec -it hadoop-java bash
 echo "\n success ! \n"
+
