@@ -9,4 +9,4 @@ docker run -itd \
       --name hadoop-zookeeper  \
       -v /var/lib/zookeeper:/var/lib/zookeeper \
       -v /var/log/zookeeper:/var/log/zookeeper  \
-      thushear/zookeeper:1.0 zk1,zk2,zk3 $ID   &> /dev/null
+      thushear/zookeeper:2.0 zk1,zk2,zk3 $ID   &> /dev/null

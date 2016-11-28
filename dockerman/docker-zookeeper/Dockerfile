@@ -24,6 +24,21 @@ ENV clientPort=2181
 ENV initLimit=5
 ENV syncLimit=2
 
+# ssh without key
+RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+COPY ssh_config /tmp/
+RUN mv /tmp/ssh_config ~/.ssh/config 
+
+RUN mkdir /var/run/sshd
+RUN echo 'root:root' |chpasswd
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+
+EXPOSE 22
+CMD    ["/usr/sbin/sshd", "-D"]
+
 # add startup script
 ADD entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
