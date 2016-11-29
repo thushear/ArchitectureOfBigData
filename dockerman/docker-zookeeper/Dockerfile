@@ -9,9 +9,9 @@ WORKDIR /usr/share/zookeeper
 
 EXPOSE 2181 2888 3888
 
-# Install and set everything up
+# Install and set everything up  http://mirrors.aliyun.com/apache/zookeeper/
 RUN \
-   wget -q -N http://mirror.dkd.de/apache/zookeeper/$BIN_VERSION/$BIN_VERSION.tar.gz \
+   wget -q -N http://mirrors.aliyun.com/apache/zookeeper/$BIN_VERSION/$BIN_VERSION.tar.gz \
 && tar --strip-components=1 -C /usr/share/zookeeper -xvf ${BIN_VERSION}.tar.gz \
 && rm $BIN_VERSION.tar.gz \
 && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -24,20 +24,10 @@ ENV clientPort=2181
 ENV initLimit=5
 ENV syncLimit=2
 
-# ssh without key
-RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
-    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-
-COPY ssh_config /tmp/
-RUN mv /tmp/ssh_config ~/.ssh/config 
-
-RUN mkdir /var/run/sshd
-RUN echo 'root:root' |chpasswd
-RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 EXPOSE 22
 CMD    ["/usr/sbin/sshd", "-D"]
+WORKDIR /usr/share/zookeeper
 
 # add startup script
 ADD entrypoint.sh entrypoint.sh

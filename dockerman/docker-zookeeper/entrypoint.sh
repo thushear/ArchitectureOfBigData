@@ -1,9 +1,8 @@
 #!/bin/bash
-
 # the first argument provided is a comma-separated list of all ZooKeeper servers in the ensemble:
-export ZOOKEEPER_SERVERS=$1
+#export ZOOKEEPER_SERVERS=$1
 # the second argument provided is vat of this ZooKeeper node:
-export ZOOKEEPER_ID=$2
+#export ZOOKEEPER_ID=$2
 
 # create data and blog directories:
 mkdir -p $dataDir
@@ -39,4 +38,4 @@ done
 echo "$ZOOKEEPER_CONFIG" | tee conf/zoo.cfg
 
 # start the server:
-/bin/bash bin/zkServer.sh start-foreground
+/bin/bash bin/zkServer.sh start-foreground & /usr/sbin/sshd -D

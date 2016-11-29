@@ -1,0 +1,31 @@
+version: '2'
+services:
+  zookeeper1:
+    image: thushear/zookeeper:5.0
+    container_name: hadoop-zookeeper1
+    hostname: hadoop-zookeeper1
+    ports:
+      - "2181:2181"
+      - "20022:22"
+    environment:
+      - ZOOKEEPER_ID=1
+      - ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+  zookeeper2:
+    image: thushear/zookeeper:5.0
+    container_name: hadoop-zookeeper2
+    hostname: hadoop-zookeeper2
+    environment:
+      - ZOOKEEPER_ID=2
+      - ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+  zookeeper3:
+    image: thushear/zookeeper:5.0
+    container_name: hadoop-zookeeper3
+    hostname: hadoop-zookeeper3
+    environment:
+     - ZOOKEEPER_ID=3
+     - ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+
+networks:
+  default:
+    external:
+      name: test-storm
