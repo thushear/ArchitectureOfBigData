@@ -1,0 +1,39 @@
+version: '2'
+services:
+  ui:
+    image: thushear/storm:1.0
+    command: ui -c nimbus.host=nimbus
+    environment:
+      - STORM_ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+    restart: always
+    container_name: hadoop-stormui
+    hostname: hadoop-stormui
+    ports:
+      - 8080:8080
+    depends_on:
+      - nimbus
+  nimbus:
+    image: thushear/storm:1.0
+    command: nimbus -c nimbus.host=nimbus
+    restart: always
+    environment:
+      - STORM_ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+    container_name: hadoop-stormnimbus
+    hostname: hadoop-stormnimbus
+    ports:
+     - "6627:6627"
+     - "50022:22"
+  supervisor:
+    image: thushear/storm:1.0
+    command: supervisor -c nimbus.host=nimbus -c supervisor.slots.ports=[6700,6701,6702,6703]
+    restart: always
+    environment:
+      - affinity:role!=supervisor
+      - STORM_ZOOKEEPER_SERVERS=hadoop-zookeeper1,hadoop-zookeeper2,hadoop-zookeeper3
+    depends_on:
+      - nimbus
+networks:
+  default:
+    external:
+      name: test-storm
+
