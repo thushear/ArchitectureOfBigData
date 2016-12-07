@@ -1,5 +1,6 @@
 package com.github.thushear.storm.transaction;
 
+import com.github.thushear.storm.utils.LogFormatter;
 import org.apache.storm.coordination.BatchOutputCollector;
 import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
 import org.apache.storm.task.TopologyContext;
@@ -25,15 +26,17 @@ public class TextCountgBolt extends BaseTransactionalBolt  {
 
   @Override
   public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, TransactionAttempt id) {
-    System.err.println("TextCountgBolt prepare id " + id);
+
     this._collector = collector;
     this._id = id;
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  TransactionAttempt %s \n ",this.getClass().getName(),"prepare", Thread.currentThread().getId(),Thread.currentThread().getName(),id);
   }
 
   @Override
   public void execute(Tuple tuple) {
     TransactionAttempt transactionAttempt = (TransactionAttempt) tuple.getValue(0);
-    System.err.println("transactionAttempt " + transactionAttempt.getAttemptId() + "  " + transactionAttempt.getTransactionId());
+
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  TransactionAttempt %s  \n",this.getClass().getName(),"execute", Thread.currentThread().getId(),Thread.currentThread().getName(),transactionAttempt);
     String log = tuple.getString(1);
     if (StringUtils.isNotBlank(log)){
       count ++;
@@ -42,6 +45,7 @@ public class TextCountgBolt extends BaseTransactionalBolt  {
 
   @Override
   public void finishBatch() {
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  TransactionAttempt %s  count %s \n",this.getClass().getName(),"finishBatch", Thread.currentThread().getId(),Thread.currentThread().getName(),_id,count);
     _collector.emit(new Values(_id,count));
   }
 

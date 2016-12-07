@@ -1,5 +1,6 @@
 package com.github.thushear.storm.transaction;
 
+import com.github.thushear.storm.utils.LogFormatter;
 import org.apache.storm.transactional.ITransactionalSpout;
 import org.apache.storm.utils.Utils;
 
@@ -23,13 +24,15 @@ public class TextCoordinator implements ITransactionalSpout.Coordinator<TextMeta
     }
 
     TextMeta textMeta = new TextMeta(start,10);
-    System.err.println("txid = " + txid + " " + textMeta);
+//    System.err.println( "ThreadId "  "txid = " + txid + " " + textMeta);
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s txId %s textMeta %s \n", this.getClass().getName(), "initializeTransaction", Thread.currentThread().getId(), Thread.currentThread().getName(), txid, textMeta);
     return textMeta;
   }
 
   @Override
   public boolean isReady() {
 //    Utils.sleep(2000);
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s \n",this.getClass().getName(),"isReady", Thread.currentThread().getId(),Thread.currentThread().getName());
     return true;
   }
 

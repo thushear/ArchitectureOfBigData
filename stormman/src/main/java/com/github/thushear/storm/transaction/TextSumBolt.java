@@ -1,5 +1,6 @@
 package com.github.thushear.storm.transaction;
 
+import com.github.thushear.storm.utils.LogFormatter;
 import org.apache.storm.coordination.BatchOutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -23,20 +24,21 @@ public class TextSumBolt extends BaseTransactionalBolt implements ICommitter{
 
   BigInteger _txid;
 
-  private Map<String,DBEntry> sumDB = new HashMap<>();
+  private static Map<String,DBEntry> sumDB = new HashMap<>();
 
   @Override
   public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, TransactionAttempt id) {
      this._txid = id.getTransactionId();
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  TransactionAttempt %s \n ",this.getClass().getName(),"prepare", Thread.currentThread().getId(),Thread.currentThread().getName(),id);
   }
 
   @Override
   public void execute(Tuple tuple) {
     TransactionAttempt   transactionAttempt = (TransactionAttempt) tuple.getValue(0);
-    System.err.println("TextSumBolt execute transactionAttempt " + transactionAttempt.getTransactionId());
+
     int count = tuple.getInteger(1);
     sum += count;
-
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  TransactionAttempt %s  sum %s \n",this.getClass().getName(),"execute", Thread.currentThread().getId(),Thread.currentThread().getName(),transactionAttempt,sum);
   }
 
   @Override
@@ -55,7 +57,7 @@ public class TextSumBolt extends BaseTransactionalBolt implements ICommitter{
         sumDB.put("sum",dbEntry);
       }
     }
-    System.err.println("dbEntry = " + dbEntry);
+    LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  dbEntry %s \n  ",this.getClass().getName(),"finishBatch", Thread.currentThread().getId(),Thread.currentThread().getName(),dbEntry);
 
   }
 

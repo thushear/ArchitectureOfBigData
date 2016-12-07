@@ -1,5 +1,6 @@
 package com.github.thushear.storm.transaction;
 
+import com.github.thushear.storm.utils.LogFormatter;
 import org.apache.storm.coordination.BatchOutputCollector;
 import org.apache.storm.transactional.ITransactionalSpout;
 import org.apache.storm.transactional.TransactionAttempt;
@@ -28,6 +29,7 @@ public class TextEmmiter implements ITransactionalSpout.Emitter<TextMeta> {
       if (start > _logDB.size())
         return;
       collector.emit(new Values(tx,_logDB.get(i)));
+      LogFormatter.trace(" Class %s Method %s  ThreadId %s ThreadName %s  tx %s log %s \n",this.getClass().getName(),"emitBatch", Thread.currentThread().getId(),Thread.currentThread().getName(),tx,_logDB.get(i));
     }
   }
 

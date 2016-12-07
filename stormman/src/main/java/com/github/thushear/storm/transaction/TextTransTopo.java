@@ -16,7 +16,7 @@ public class TextTransTopo {
 
   public static void main(String[] args) throws InvalidTopologyException, AuthorizationException, AlreadyAliveException {
     TransactionalTopologyBuilder transactionalTopologyBuilder = new TransactionalTopologyBuilder("ttb", "textspout", new TextTransactionalSpout(), 1);
-    transactionalTopologyBuilder.setBolt("textcountbolt", new TextCountgBolt(), 3).shuffleGrouping("textspout");
+    transactionalTopologyBuilder.setBolt("textcountbolt", new TextCountgBolt(), 1).shuffleGrouping("textspout");
 //    transactionalTopologyBuilder.setCommitterBolt("textsumbolt", new TextSumBolt(), 1).shuffleGrouping("textcountbolt");
     transactionalTopologyBuilder.setBolt("textsumbolt", new TextSumBolt(), 1).shuffleGrouping("textcountbolt");
     Config config = new Config();
