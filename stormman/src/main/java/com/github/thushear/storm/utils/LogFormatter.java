@@ -1,6 +1,7 @@
 package com.github.thushear.storm.utils;
 
-import org.apache.commons.io.IOUtils;
+
+import org.apache.storm.shade.org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ public final class LogFormatter {
             fileWriter = new FileWriter(new File(LogFormatter.class.getResource("/").getPath() + File.separator + "trace.log"),true);
         } catch (IOException e) {
             e.printStackTrace();
+
             IOUtils.closeQuietly(fileWriter);
         }
     }
