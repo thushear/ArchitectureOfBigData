@@ -20,6 +20,16 @@
       <groupId>org.apache.storm</groupId>
       <artifactId>storm-core</artifactId>
       <version>1.0.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>ring-core</artifactId>
+          <groupId>ring</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hiccup</artifactId>
+          <groupId>hiccup</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
