@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+HADOOP_HOME=/usr/local/hadoop
 echo -e "\n"
 
 $HADOOP_HOME/bin/hdfs namenode -format

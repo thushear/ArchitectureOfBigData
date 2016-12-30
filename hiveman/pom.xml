@@ -67,23 +67,23 @@
 		</dependency>
 	</dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+  <!--<build>-->
+    <!--<plugins>-->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-jar-plugin</artifactId>-->
 
-        <configuration>
-          <finalName>mylower</finalName>
-          <archive>
-            <manifest>
-              <mainClass>com.github.thushear.hive.udf.MyLowerUDF</mainClass>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <!--<configuration>-->
+          <!--<finalName>mylower</finalName>-->
+          <!--<archive>-->
+            <!--<manifest>-->
+              <!--<mainClass>com.github.thushear.hive.udf.MyLowerUDF</mainClass>-->
+              <!--<addDefaultImplementationEntries>true</addDefaultImplementationEntries>-->
+            <!--</manifest>-->
+          <!--</archive>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+    <!--</plugins>-->
+  <!--</build>-->
 
 </project>

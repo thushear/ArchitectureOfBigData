@@ -36,6 +36,12 @@ RUN   tar -xzvf /tmp/oozie-4.0.0-cdh5.3.6.tar.gz -C /tmp/  && \
       rm /tmp/oozie-4.0.0-cdh5.3.6.tar.gz
 COPY   ext-2.2.zip  /tmp/
 
+COPY   spark-1.3.0-bin-2.5.0-cdh5.3.6.tgz  /tmp/
+RUN   tar -xzvf /tmp/spark-1.3.0-bin-2.5.0-cdh5.3.6.tgz -C /tmp/  && \
+      mv /tmp/spark-1.3.0-bin-2.5.0-cdh5.3.6 /usr/local/spark-1.3.0-bin-2.5.0-cdh5.3.6 && \
+      rm /tmp/spark-1.3.0-bin-2.5.0-cdh5.3.6.tgz
+
+
 
 
 #RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
@@ -55,6 +61,7 @@ RUN mkdir -p ~/hdfs/namenode && \
     mkdir $HADOOP_HOME/logs
 
 COPY config/* /tmp/
+COPY standalone/* /tmp/
 ENV HADOOP_HOME /usr/local/hadoop
 ENV PATH /usr/local/hadoop/bin:/usr/local/hadoop/sbin:$PATH
 RUN mv /tmp/ssh_config ~/.ssh/config && \
@@ -67,7 +74,10 @@ RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
     mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
     mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
-    mv /tmp/run-wordcount.sh ~/run-wordcount.sh
+    mv /tmp/run-wordcount.sh ~/run-wordcount.sh && \
+    mv /tmp/slaves /usr/local/spark-1.3.0-bin-2.5.0-cdh5.3.6/conf/slaves && \
+    mv /tmp/spark-env.sh /usr/local/spark-1.3.0-bin-2.5.0-cdh5.3.6/conf/spark-env.sh && \
+    mv /tmp/spark-defaults.conf /usr/local/spark-1.3.0-bin-2.5.0-cdh5.3.6/conf/spark-defaults.conf
 COPY conf/* /tmp/
 RUN mv /tmp/hive-env.sh /usr/local/hive/conf/hive-env.sh && \
     mv /tmp/hive-site.xml /usr/local/hive/conf/hive-site.xml && \
