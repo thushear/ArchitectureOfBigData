@@ -12,7 +12,7 @@ object SimpleApp {
 
 
 
-    val conf = new SparkConf().setAppName("simple").setMaster("local")
+    val conf = new SparkConf().setAppName("simple")
     val spark = new SparkContext(conf)
 //    val rdd = spark.textFile("wc.input")
     val rdd = spark.textFile("hdfs://hadoop-master:9000/user/root/score.input")
@@ -34,7 +34,7 @@ object SimpleApp {
       }
     )
 
-    groupTopKeyRdd.saveAsTextFile("hdfs://hadoop-master:9000/spark/output2")
+    groupTopKeyRdd.saveAsTextFile("hdfs://hadoop-master:9000/spark/output3")
 //    spark.wait()
     spark.stop()
 
