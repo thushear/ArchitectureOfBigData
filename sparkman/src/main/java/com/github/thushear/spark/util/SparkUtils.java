@@ -1,5 +1,8 @@
 package com.github.thushear.spark.util;
 
+import com.github.thushear.spark.conf.ConfigurationManager;
+import com.github.thushear.spark.constant.Constants;
+import com.github.thushear.spark.test.MockData;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
@@ -10,9 +13,7 @@ import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.hive.HiveContext;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ibeifeng.sparkproject.conf.ConfigurationManager;
-import com.ibeifeng.sparkproject.constant.Constants;
-import com.ibeifeng.sparkproject.test.MockData;
+
 
 /**
  * Spark工具类
