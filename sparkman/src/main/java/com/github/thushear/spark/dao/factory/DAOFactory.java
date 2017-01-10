@@ -1,7 +1,9 @@
 package com.github.thushear.spark.dao.factory;
 
 
+import com.github.thushear.spark.dao.ISessionAggrStatDAO;
 import com.github.thushear.spark.dao.ITaskDAO;
+import com.github.thushear.spark.dao.impl.SessionAggrStatDAOImpl;
 import com.github.thushear.spark.dao.impl.TaskDAOImpl;
 
 /**
@@ -14,6 +16,11 @@ public class DAOFactory {
 
 	public static ITaskDAO getTaskDAO() {
 		return new TaskDAOImpl();
+	}
+
+
+	public static ISessionAggrStatDAO getSessionAggrStatDAO(){
+		return new SessionAggrStatDAOImpl();
 	}
 
 

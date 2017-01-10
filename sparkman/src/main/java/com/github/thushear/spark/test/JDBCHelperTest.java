@@ -74,6 +74,8 @@ public class JDBCHelperTest {
     Map<String,String> map = new HashMap<>();
     map.put(Constants.PARAM_START_DATE,DateUtils.getYesterdayDate());
     map.put(Constants.PARAM_END_DATE,DateUtils.getTodayDate());
+    map.put(Constants.PARAM_START_AGE,"22");
+    map.put(Constants.PARAM_END_AGE,"55");
     String taskParam = JSON.toJSONString(map);
 
     jdbcHelper.executeUpdate(taskSql,new Object[]{"spark_test", DateUtils.getTodayDate(),DateUtils.getTodayDate(),DateUtils.getTodayDate(),1,1,taskParam});
