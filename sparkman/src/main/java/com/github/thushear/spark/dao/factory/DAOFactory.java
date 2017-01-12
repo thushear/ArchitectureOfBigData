@@ -2,8 +2,12 @@ package com.github.thushear.spark.dao.factory;
 
 
 import com.github.thushear.spark.dao.ISessionAggrStatDAO;
+import com.github.thushear.spark.dao.ISessionDetailDAO;
+import com.github.thushear.spark.dao.ISessionRandomExtractDAO;
 import com.github.thushear.spark.dao.ITaskDAO;
 import com.github.thushear.spark.dao.impl.SessionAggrStatDAOImpl;
+import com.github.thushear.spark.dao.impl.SessionDetailDAOImpl;
+import com.github.thushear.spark.dao.impl.SessionRandomExtractDAOImpl;
 import com.github.thushear.spark.dao.impl.TaskDAOImpl;
 
 /**
@@ -23,5 +27,15 @@ public class DAOFactory {
 		return new SessionAggrStatDAOImpl();
 	}
 
+
+  public static ISessionRandomExtractDAO getSessionRandomExtractDAO(){
+    return new SessionRandomExtractDAOImpl();
+  }
+
+
+  public static ISessionDetailDAO getSessionDetailDAO(){
+    return new SessionDetailDAOImpl();
+
+  }
 
 }

@@ -31,3 +31,27 @@ CREATE TABLE `session_aggr_stat` (
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
+CREATE TABLE `session_random_extract` (
+  `task_id` int(11) NOT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
+  `start_time` varchar(50) DEFAULT NULL,
+  `end_time` varchar(50) DEFAULT NULL,
+  `search_keywords` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `session_detail` (
+  `task_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
+  `action_time` varchar(255) DEFAULT NULL,
+  `search_keyword` varchar(255) DEFAULT NULL,
+  `click_category_id` int(11) DEFAULT NULL,
+  `click_product_id` int(11) DEFAULT NULL,
+  `order_category_ids` varchar(255) DEFAULT NULL,
+  `order_product_ids` varchar(255) DEFAULT NULL,
+  `pay_category_ids` varchar(255) DEFAULT NULL,
+  `pay_product_ids` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
