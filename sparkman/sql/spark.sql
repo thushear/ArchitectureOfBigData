@@ -55,3 +55,9 @@ CREATE TABLE `session_detail` (
   `pay_product_ids` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+CREATE TABLE `top10_session` (
+  `task_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
+  `click_count` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
