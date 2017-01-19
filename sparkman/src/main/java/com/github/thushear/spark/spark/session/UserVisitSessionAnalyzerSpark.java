@@ -262,6 +262,7 @@ public class UserVisitSessionAnalyzerSpark {
           for (int i = 0; i < 10; i++) {
             if (top10Session[i] == null){
               top10Session[i] = session2Count;
+              break;
             }else {
 
               Long count =  Long.valueOf(session2Count.split(",")[1]);
@@ -285,6 +286,9 @@ public class UserVisitSessionAnalyzerSpark {
         List<Tuple2<String, String>> list = new ArrayList<Tuple2<String, String>>();
 
         for(String sessionCount : top10Session) {
+          if (sessionCount == null) {
+            continue;
+          }
           String sessionid = sessionCount.split(",")[0];
           long count = Long.valueOf(sessionCount.split(",")[1]);
 
