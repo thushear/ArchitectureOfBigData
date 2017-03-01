@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>
+		<name>collector_new_install_user</name>
+		<value>com.beifeng.transformer.mr.nu.StatsUserNewInstallUserCollector</value>
+	</property>
+
+	<property>
+		<name>collector_browser_new_install_user</name>
+		<value>com.beifeng.transformer.mr.nu.StatsDeviceBrowserNewInstallUserCollector</value>
+	</property>
+
+	<property>
+		<name>collector_active_user</name>
+		<value>com.beifeng.transformer.mr.au.ActiveUserCollector</value>
+	</property>
+
+	<property>
+		<name>collector_browser_active_user</name>
+		<value>com.beifeng.transformer.mr.au.ActiveUserBrowserCollector</value>
+	</property>
+
+	<property>
+		<name>collector_active_member</name>
+		<value>com.beifeng.transformer.mr.am.ActiveMemberCollector</value>
+	</property>
+
+	<property>
+		<name>collector_browser_active_member</name>
+		<value>com.beifeng.transformer.mr.am.ActiveMemberCollector</value>
+	</property>
+
+	<property>
+		<name>collector_new_member</name>
+		<value>com.beifeng.transformer.mr.nm.NewMemberCollector</value>
+	</property>	
+
+	<property>
+		<name>collector_browser_new_member</name>
+		<value>com.beifeng.transformer.mr.nm.NewMemberCollector</value>
+	</property>	
+
+	<property>
+		<name>collector_insert_member_info</name>
+		<value>com.beifeng.transformer.mr.nm.NewMemberCollector</value>
+	</property>	
+
+</configuration>
