@@ -3,7 +3,7 @@
 <configuration>
 	<property>
 		<name>hbase.rootdir</name>
-		<value>hdfs://hh/hbase</value>
+		<value>hdfs://kongming-ThinkPad-E420:9000/hbase</value>
 	</property>
 	<property>
 		<name>hbase.cluster.distributed</name>
@@ -11,6 +11,6 @@
 	</property>
 	<property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>hh</value>
+		<value>kongming-ThinkPad-E420</value>
 	</property>
 </configuration>
