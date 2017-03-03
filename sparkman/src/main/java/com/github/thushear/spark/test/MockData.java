@@ -1,5 +1,6 @@
 package com.github.thushear.spark.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 import com.github.thushear.spark.util.DateUtils;
 import com.github.thushear.spark.util.StringUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.DataFrame;
@@ -25,6 +27,8 @@ import org.apache.spark.sql.types.StructType;
  *
  */
 public class MockData {
+
+  private static File MOCK_DATA_FILE = new File("mock_data.txt");
 
 	/**
 	 * 模拟数据
@@ -82,6 +86,7 @@ public class MockData {
 							orderCategoryIds, orderProductIds,
 							payCategoryIds, payProductIds,
 							Long.valueOf(String.valueOf(random.nextInt(10))));
+          com.github.thushear.spark.util.FileUtils.writeToFile(MOCK_DATA_FILE,row.toString(),true);
 					rows.add(row);
 				}
 			}
@@ -128,6 +133,7 @@ public class MockData {
 
 			Row row = RowFactory.create(userid, username, name, age,
 					professional, city, sex);
+      com.github.thushear.spark.util.FileUtils.writeToFile(MOCK_DATA_FILE,row.toString(),true);
 			rows.add(row);
 		}
 
@@ -162,6 +168,7 @@ public class MockData {
 			String extendInfo = "{\"product_status\": " + productStatus[random.nextInt(2)] + "}";
 
 			Row row = RowFactory.create(productId, productName, extendInfo);
+      com.github.thushear.spark.util.FileUtils.writeToFile(MOCK_DATA_FILE,row.toString(),true);
 			rows.add(row);
 		}
 
@@ -179,5 +186,8 @@ public class MockData {
 
 		df3.registerTempTable("product_info");
 	}
+
+
+
 
 }

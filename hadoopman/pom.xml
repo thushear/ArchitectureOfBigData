@@ -21,8 +21,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
+		<java.version>1.7</java.version>
     <hadoop.version>2.7.2</hadoop.version>
+    <hbase.version>0.98.6-hadoop2</hbase.version>
 	</properties>
 
 	<dependencies>
@@ -62,6 +63,25 @@
       <version>3.2.1</version>
       <scope>runtime</scope>
     </dependency>
+
+    <dependency>
+      <groupId>cz.mallat.uasparser</groupId>
+      <artifactId>uasparser</artifactId>
+      <version>0.6.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-client</artifactId>
+      <version>${hbase.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-server</artifactId>
+      <version>${hbase.version}</version>
+    </dependency>
+
 	</dependencies>
 
 	<!--<build>-->
@@ -75,19 +95,67 @@
 	<!--</build>-->
 	<build>
 		<plugins>
-			<plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.github.thushear.bigdata.etl.mr.ald.AnalyserLogDataRunner</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.github.thushear.bigdata.mapreduce.WordCountMapReduce</mainClass>
+							<mainClass>com.github.thushear.bigdata.etl.mr.ald.AnalyserLogDataRunner</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
-		</plugins>
+
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-shade-plugin</artifactId>-->
+        <!--<version>2.1</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+              <!--<goal>shade</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<artifactSet>-->
+                <!--<includes>-->
+                  <!--<include>cz.mallat.uasparser:uasparser</include>-->
+                  <!--<include>net.sourceforge.jregex:jregex</include>-->
+                <!--</includes>-->
+
+              <!--</artifactSet>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+
+    </plugins>
 	</build>
 
 </project>

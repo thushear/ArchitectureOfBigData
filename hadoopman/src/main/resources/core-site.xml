@@ -25,6 +25,17 @@
     <name>hadoop.tmp.dir</name>
     <value>/export/servers/hadoop-2.7.2/data/tmp</value>
   </property>
-
+  <property>
+    <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>kongming-ThinkPad-E420:8032</value>
+  </property>
+  <property>
+    <name>mapreduce.app-submission.cross-platform</name>
+    <value>true</value>
+  </property>
 
 </configuration>

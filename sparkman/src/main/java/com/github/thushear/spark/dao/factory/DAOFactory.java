@@ -1,10 +1,8 @@
 package com.github.thushear.spark.dao.factory;
 
 
-import com.github.thushear.spark.dao.ISessionAggrStatDAO;
-import com.github.thushear.spark.dao.ITaskDAO;
-import com.github.thushear.spark.dao.impl.SessionAggrStatDAOImpl;
-import com.github.thushear.spark.dao.impl.TaskDAOImpl;
+import com.github.thushear.spark.dao.*;
+import com.github.thushear.spark.dao.impl.*;
 
 /**
  * DAO工厂类
@@ -24,4 +22,27 @@ public class DAOFactory {
 	}
 
 
+  public static ISessionRandomExtractDAO getSessionRandomExtractDAO(){
+    return new SessionRandomExtractDAOImpl();
+  }
+
+
+  public static ISessionDetailDAO getSessionDetailDAO(){
+    return new SessionDetailDAOImpl();
+
+  }
+
+
+  public static ITop10CategoryDAO getTop10CategoryDAO(){
+    return new Top10CategoryDAOImpl();
+  }
+  public static ITop10SessionDAO getTop10SessionDAO() {
+    return new Top10SessionDAOImpl();
+  }
+  public static IPageSplitConvertRateDAO getPageSplitConvertRateDAO() {
+    return new PageSplitConvertRateDAOImpl();
+  }
+  public static IAreaTop3ProductDAO getAreaTop3ProductDAO() {
+    return new AreaTop3ProductDAOImpl();
+  }
 }
