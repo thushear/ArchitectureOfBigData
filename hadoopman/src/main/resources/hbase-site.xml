@@ -3,7 +3,7 @@
 <configuration>
 	<property>
 		<name>hbase.rootdir</name>
-		<value>hdfs://kongming-ThinkPad-E420:9000/hbase</value>
+		<value>hdfs://mesos-master.com:9000/hbase</value>
 	</property>
 	<property>
 		<name>hbase.cluster.distributed</name>
@@ -11,6 +11,6 @@
 	</property>
 	<property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>kongming-ThinkPad-E420</value>
+		<value>mesos-master.com</value>
 	</property>
 </configuration>

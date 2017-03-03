@@ -16,7 +16,7 @@ import org.apache.hadoop.io.IntWritable;
 
 
 
-public class StatsDeviceBrowserNewInstallUserCollector implements IOutputCollector {
+public class  StatsDeviceBrowserNewInstallUserCollector implements IOutputCollector {
 
     @Override
     public void collect(Configuration conf, BaseDimension key, BaseStatsValueWritable value, PreparedStatement pstmt, IDimensionConverter converter) throws SQLException, IOException {

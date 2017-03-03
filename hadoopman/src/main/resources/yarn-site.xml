@@ -19,7 +19,7 @@
     </property>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>kongming-ThinkPad-E420</value>
+    <value>mesos-master.com</value>
   </property>
 
   <!--日志聚集及保存时间-->

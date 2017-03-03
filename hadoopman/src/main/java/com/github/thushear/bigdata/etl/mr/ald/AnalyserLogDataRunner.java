@@ -1,7 +1,5 @@
 package com.github.thushear.bigdata.etl.mr.ald;
 
-import java.io.IOException;
-
 import com.github.thushear.bigdata.common.EventLogConstants;
 import com.github.thushear.bigdata.common.GlobalConstants;
 import com.github.thushear.bigdata.util.TimeUtil;
@@ -13,19 +11,21 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
 
 
 /**
  * 编写mapreduce的runner类
  *
  * @author gerry
- *
  */
 public class AnalyserLogDataRunner implements Tool {
     private static final Logger logger = Logger.getLogger(AnalyserLogDataRunner.class);
@@ -57,9 +57,11 @@ public class AnalyserLogDataRunner implements Tool {
 
         Job job = Job.getInstance(conf, "analyser_logdata");
 
+//        String classPath = AnalyserLogDataRunner.class.getResource("/").getPath();
         // 设置本地提交job，集群运行，需要代码
-        // File jarFile = EJob.createTempJar("target/classes");
-        // ((JobConf) job.getConfiguration()).setJar(jarFile.toString());
+//         File jarFile = EJob.createTempJar(classPath);
+        File jarFile = new File("D:\\coding\\ArchitectureOfBigData\\hadoopman\\target\\hadoopman-0.0.1-SNAPSHOT.jar");
+        ((JobConf) job.getConfiguration()).setJar(jarFile.toString());
         // 设置本地提交job，集群运行，需要代码结束
 
         job.setJarByClass(AnalyserLogDataRunner.class);
@@ -68,10 +70,10 @@ public class AnalyserLogDataRunner implements Tool {
         job.setMapOutputValueClass(Put.class);
         // 设置reducer配置
         // 1. 集群上运行，打成jar运行(要求addDependencyJars参数为true，默认就是true)
-        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS, null, job);
+//        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS, null, job);
         // 2. 本地运行，要求参数addDependencyJars为false
-//         TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS,
-//         null, job, null, null, null, null, false);
+        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS,
+                null, job, null, null, null, null, false);
         job.setNumReduceTasks(0);
 
         // 设置输入路径
@@ -102,7 +104,7 @@ public class AnalyserLogDataRunner implements Tool {
             date = TimeUtil.getYesterday(); // 默认时间是昨天
         }
         conf.set(GlobalConstants.RUNNING_DATE_PARAMES, date);
-      System.out.println("date=" + date);
+        System.out.println("date=" + date);
     }
 
     /**
@@ -117,7 +119,7 @@ public class AnalyserLogDataRunner implements Tool {
             fs = FileSystem.get(conf);
             String date = conf.get(GlobalConstants.RUNNING_DATE_PARAMES);
             Path inputPath = new Path("/logs/" + TimeUtil.parseLong2String(TimeUtil.parseString2Long(date), "MM/dd/"));
-          System.out.format("inputput=%s",inputPath);
+            System.out.format("inputput=%s", inputPath);
             if (fs.exists(inputPath)) {
                 FileInputFormat.addInputPath(job, inputPath);
             } else {

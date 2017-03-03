@@ -657,7 +657,7 @@ public class UserVisitSessionAnalyzerSpark {
   }
 
 
-  private static void extractRandomSession(JavaPairRDD<String,String> sessionAggrInfoRDD,long taskid,JavaPairRDD<String, Row> sessionid2actionRDD){
+  private static void extractRandomSession(JavaPairRDD<String,String> sessionAggrInfoRDD,final long taskid,JavaPairRDD<String, Row> sessionid2actionRDD){
     // 第一步，计算出每天每小时的session数量，获取<yyyy-MM-dd_HH,sessionid>格式的RDD
     JavaPairRDD<String,String> dateHour2AggrRDD = sessionAggrInfoRDD.mapToPair(new PairFunction<Tuple2<String,String>, String, String>() {
       @Override
@@ -703,7 +703,7 @@ public class UserVisitSessionAnalyzerSpark {
     // 总共要抽取100个session，先按照天数，进行平分
     int extractNumberPerDay = 100 / dateHourCountMap.size();
 
-    Map<String,Map<String,List<Integer>>>  dateHourExtractMap
+    final Map<String,Map<String,List<Integer>>>  dateHourExtractMap
         = new HashMap<>();
 
     Random random = new Random();
@@ -937,7 +937,7 @@ public class UserVisitSessionAnalyzerSpark {
 
 
 
-  private static JavaPairRDD<String,String> filterSession(JavaPairRDD<String, String> session2AggrInfoRDD, JSONObject taskParam, Accumulator<String> sessionAggrStatAccumulator){
+  private static JavaPairRDD<String,String> filterSession(JavaPairRDD<String, String> session2AggrInfoRDD, JSONObject taskParam,final Accumulator<String> sessionAggrStatAccumulator){
     String stargAge = ParamUtils.getParam(taskParam,Constants.PARAM_START_AGE);
     String endAge = ParamUtils.getParam(taskParam,Constants.PARAM_END_AGE);
     String professionals = ParamUtils.getParam(taskParam,Constants.PARAM_PROFESSIONALS);

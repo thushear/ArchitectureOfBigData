@@ -18,7 +18,7 @@
   <!--默认文件系统 配置Host-->
  <property>
    <name>fs.defaultFS</name>
-  <value>hdfs://kongming-ThinkPad-E420:9000</value>
+  <value>hdfs://mesos-master.com:9000</value>
  </property>
   <!--默认临时文件夹-->
   <property>
@@ -31,7 +31,7 @@
   </property>
   <property>
     <name>yarn.resourcemanager.address</name>
-    <value>kongming-ThinkPad-E420:8032</value>
+    <value>mesos-master.com:8032</value>
   </property>
   <property>
     <name>mapreduce.app-submission.cross-platform</name>

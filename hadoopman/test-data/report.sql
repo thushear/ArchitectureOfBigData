@@ -1,13 +1,4 @@
-﻿# Host: localhost  (Version: 5.5.40)
-# Date: 2015-12-06 22:29:08
-# Generator: MySQL-Front 5.3  (Build 4.120)
-
-/*!40101 SET NAMES utf8 */;
-
-#
-# Structure for table "dimension_browser"
-#
-
+﻿
 DROP TABLE IF EXISTS `dimension_browser`;
 CREATE TABLE `dimension_browser` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

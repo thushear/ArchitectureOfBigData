@@ -15,12 +15,10 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Logger;
 
 
-
 /**
  * 自定义数据解析map类
  *
  * @author gerry
- *
  */
 public class AnalyserLogDataMapper extends Mapper<Object, Text, NullWritable, Put> {
     private final Logger logger = Logger.getLogger(AnalyserLogDataMapper.class);
@@ -32,7 +30,7 @@ public class AnalyserLogDataMapper extends Mapper<Object, Text, NullWritable, Pu
     protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         this.inputRecords++;
         this.logger.debug("Analyse data of :" + value);
-      System.err.println("Analyse data of :" + value);
+        System.err.println("Analyse data of :" + value);
         try {
             // 解析日志
             Map<String, String> clientInfo = LoggerUtil.handleLog(value.toString());
@@ -47,18 +45,18 @@ public class AnalyserLogDataMapper extends Mapper<Object, Text, NullWritable, Pu
             String eventAliasName = clientInfo.get(EventLogConstants.LOG_COLUMN_NAME_EVENT_NAME);
             EventLogConstants.EventEnum event = EventLogConstants.EventEnum.valueOfAlias(eventAliasName);
             switch (event) {
-            case LAUNCH:
-            case PAGEVIEW:
-            case CHARGEREQUEST:
-            case CHARGEREFUND:
-            case CHARGESUCCESS:
-            case EVENT:
-                // 处理数据
-                this.handleData(clientInfo, event, context);
-                break;
-            default:
-                this.filterRecords++;
-                this.logger.warn("该事件没法进行解析，事件名称为:" + eventAliasName);
+                case LAUNCH:
+                case PAGEVIEW:
+                case CHARGEREQUEST:
+                case CHARGEREFUND:
+                case CHARGESUCCESS:
+                case EVENT:
+                    // 处理数据
+                    this.handleData(clientInfo, event, context);
+                    break;
+                default:
+                    this.filterRecords++;
+                    this.logger.warn("该事件没法进行解析，事件名称为:" + eventAliasName);
             }
         } catch (Exception e) {
             this.filterRecords++;
@@ -89,8 +87,8 @@ public class AnalyserLogDataMapper extends Mapper<Object, Text, NullWritable, Pu
             // 要求服务器时间不为空
             clientInfo.remove(EventLogConstants.LOG_COLUMN_NAME_USER_AGENT); // 浏览器信息去掉
             String rowkey = this.generateRowKey(uuid, memberId, event.alias, serverTime); // timestamp
-                                                                                          // +
-                                                                                          // (uuid+memberid+event).crc
+            // +
+            // (uuid+memberid+event).crc
             Put put = new Put(Bytes.toBytes(rowkey));
             for (Map.Entry<String, String> entry : clientInfo.entrySet()) {
                 if (StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
