@@ -102,6 +102,7 @@ public class AnalyserLogDataRunner implements Tool {
             date = TimeUtil.getYesterday(); // 默认时间是昨天
         }
         conf.set(GlobalConstants.RUNNING_DATE_PARAMES, date);
+      System.out.println("date=" + date);
     }
 
     /**
@@ -116,6 +117,7 @@ public class AnalyserLogDataRunner implements Tool {
             fs = FileSystem.get(conf);
             String date = conf.get(GlobalConstants.RUNNING_DATE_PARAMES);
             Path inputPath = new Path("/logs/" + TimeUtil.parseLong2String(TimeUtil.parseString2Long(date), "MM/dd/"));
+          System.out.format("inputput=%s",inputPath);
             if (fs.exists(inputPath)) {
                 FileInputFormat.addInputPath(job, inputPath);
             } else {
