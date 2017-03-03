@@ -32,7 +32,7 @@ public class AnalyserLogDataMapper extends Mapper<Object, Text, NullWritable, Pu
     protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         this.inputRecords++;
         this.logger.debug("Analyse data of :" + value);
-
+      System.err.println("Analyse data of :" + value);
         try {
             // 解析日志
             Map<String, String> clientInfo = LoggerUtil.handleLog(value.toString());
