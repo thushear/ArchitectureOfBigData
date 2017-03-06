@@ -19,7 +19,7 @@
     </property>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>mesos-master.com</value>
+    <value>hadoop-master</value>
   </property>
 
   <!--日志聚集及保存时间-->

@@ -125,7 +125,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.github.thushear.bigdata.etl.mr.ald.AnalyserLogDataRunner</mainClass>
+							<mainClass>com.github.thushear.bigdata.transformer.mr.nu.NewInstallUserRunner</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 					</archive>

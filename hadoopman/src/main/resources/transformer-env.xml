@@ -13,16 +13,16 @@
 
 	<property>
 	  <name>mysql.report.url</name>
-	  <value>jdbc:mysql://mesos-slave2.com:3306/report?useUnicode=true&amp;characterEncoding=utf8</value>
-	</property>	
+	  <value>jdbc:mysql://hadoop-master:3306/report?useUnicode=true&amp;characterEncoding=utf8</value>
+	</property>
 
 	<property>
 	  <name>mysql.report.username</name>
-	  <value>test</value>
-	</property>	
+	  <value>root</value>
+	</property>
 
 	<property>
 	  <name>mysql.report.password</name>
-	  <value>123456</value>
-	</property>	
+	  <value>root</value>
+	</property>
 </configuration>

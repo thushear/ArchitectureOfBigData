@@ -60,20 +60,21 @@ public class AnalyserLogDataRunner implements Tool {
 //        String classPath = AnalyserLogDataRunner.class.getResource("/").getPath();
         // 设置本地提交job，集群运行，需要代码
 //         File jarFile = EJob.createTempJar(classPath);
-        File jarFile = new File("D:\\coding\\ArchitectureOfBigData\\hadoopman\\target\\hadoopman-0.0.1-SNAPSHOT.jar");
-        ((JobConf) job.getConfiguration()).setJar(jarFile.toString());
+//        File jarFile = new File("D:\\coding\\ArchitectureOfBigData\\hadoopman\\target\\hadoopman-0.0.1-SNAPSHOT.jar");
+//        ((JobConf) job.getConfiguration()).setJar(jarFile.toString());
         // 设置本地提交job，集群运行，需要代码结束
 
         job.setJarByClass(AnalyserLogDataRunner.class);
         job.setMapperClass(AnalyserLogDataMapper.class);
         job.setMapOutputKeyClass(NullWritable.class);
         job.setMapOutputValueClass(Put.class);
+
         // 设置reducer配置
         // 1. 集群上运行，打成jar运行(要求addDependencyJars参数为true，默认就是true)
-//        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS, null, job);
+        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS, null, job);
         // 2. 本地运行，要求参数addDependencyJars为false
-        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS,
-                null, job, null, null, null, null, false);
+//        TableMapReduceUtil.initTableReducerJob(EventLogConstants.HBASE_NAME_EVENT_LOGS,
+//                null, job, null, null, null, null, false);
         job.setNumReduceTasks(0);
 
         // 设置输入路径
