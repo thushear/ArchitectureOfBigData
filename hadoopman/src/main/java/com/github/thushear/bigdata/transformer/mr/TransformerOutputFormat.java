@@ -13,6 +13,7 @@ import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
 import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
 import com.github.thushear.bigdata.transformer.service.IDimensionConverter;
 import com.github.thushear.bigdata.transformer.service.impl.DimensionConverterImpl;
+import com.github.thushear.bigdata.util.FileUtils;
 import com.github.thushear.bigdata.util.JdbcManager;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.JobContext;
@@ -99,12 +100,12 @@ public class TransformerOutputFormat extends OutputFormat<BaseDimension, BaseSta
                     count++;
                 }
                 batch.put(kpi, count); // 批量次数的存储
-
+                FileUtils.writeToFile("batch=" + batch  , true);
                 String collectorName = conf.get(GlobalConstants.OUTPUT_COLLECTOR_KEY_PREFIX + kpi.name);
                 Class<?> clazz = Class.forName(collectorName);
                 IOutputCollector collector = (IOutputCollector) clazz.newInstance();
                 collector.collect(conf, key, value, pstmt, converter);
-
+                FileUtils.writeToFile("pstmt=" + pstmt  , true);
                 if (count % Integer.valueOf(conf.get(GlobalConstants.JDBC_BATCH_NUMBER, GlobalConstants.DEFAULT_JDBC_BATCH_NUMBER)) == 0) {
                     pstmt.executeBatch();
                     conn.commit();

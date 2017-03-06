@@ -1,4 +1,4 @@
-package com.github.thushear.bigdata.transformer.mr.nu;
+package com.github.thushear.bigdata.transformer.mr.nm;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -9,26 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.thushear.bigdata.common.DateEnum;
-import com.github.thushear.bigdata.common.EventLogConstants;
-import com.github.thushear.bigdata.common.GlobalConstants;
-import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
-import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
-import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
-import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
-import com.github.thushear.bigdata.transformer.mr.TransformerOutputFormat;
-import com.github.thushear.bigdata.util.FileUtils;
-import com.github.thushear.bigdata.util.JdbcManager;
-import com.github.thushear.bigdata.util.TimeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.MultipleColumnPrefixFilter;
-import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.mapreduce.Job;
@@ -36,38 +23,44 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
-
+import  com.github.thushear.bigdata.common.DateEnum;
+import  com.github.thushear.bigdata.common.EventLogConstants;
+import  com.github.thushear.bigdata.common.GlobalConstants;
+import  com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import  com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import  com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
+import  com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import  com.github.thushear.bigdata.transformer.mr.TransformerOutputFormat;
+import  com.github.thushear.bigdata.util.JdbcManager;
+import  com.github.thushear.bigdata.util.TimeUtil;
 import com.google.common.collect.Lists;
 
 /**
- * 计算新增用户入口类
- *
+ * 计算新增会员的入口类
+ * 
  * @author gerry
  *
  */
-public class NewInstallUserRunner implements Tool {
-    private static final Logger logger = Logger.getLogger(NewInstallUserRunner.class);
-    private Configuration conf = new Configuration();
+public class NewMemberRunner implements Tool {
+    private static final Logger logger = Logger.getLogger(NewMemberRunner.class);
+    private Configuration conf = null;
 
-    /**
-     * 入口main方法
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         try {
-            ToolRunner.run(new Configuration(), new NewInstallUserRunner(), args);
+            ToolRunner.run(new Configuration(), new NewMemberRunner(), args);
         } catch (Exception e) {
-            logger.error("运行计算新用户的job出现异常", e);
-            throw new RuntimeException(e);
+            logger.error("统计新增会员&总会员失败，出现异常信息.", e);
+            throw new RuntimeException("job执行异常", e);
         }
     }
 
     @Override
     public void setConf(Configuration conf) {
+        // 设置自定义配置信息
         conf.addResource("output-collector.xml");
         conf.addResource("query-mapping.xml");
         conf.addResource("transformer-env.xml");
+        // 使用hbase的config帮助类来加载hbase相关配置文件
         this.conf = HBaseConfiguration.create(conf);
     }
 
@@ -82,34 +75,35 @@ public class NewInstallUserRunner implements Tool {
         // 处理参数
         this.processArgs(conf, args);
 
-        Job job = Job.getInstance(conf, "new_install_user");
+        // 创建job
+        Job job = Job.getInstance(conf, "new_member");
 
-        job.setJarByClass(NewInstallUserRunner.class);
-        // 本地运行
-//        TableMapReduceUtil.initTableMapperJob(initScans(job), NewInstallUserMapper.class, StatsUserDimension.class, TimeOutputValue.class, job, false);
-        // 集群运行：本地提交和打包(jar)提交
-         TableMapReduceUtil.initTableMapperJob(initScans(job),
-         NewInstallUserMapper.class, StatsUserDimension.class,
-         TimeOutputValue.class, job);
-        job.setReducerClass(NewInstallUserReducer.class);
+        // 设置job相关配置
+        job.setJarByClass(NewMemberRunner.class);
+        // 本地运行，参数为false。如果需要线上运行，设置为true。(最后一个参数)
+        TableMapReduceUtil.initTableMapperJob(this.initScans(job), NewMemberMapper.class, StatsUserDimension.class, TimeOutputValue.class, job, false);
+        job.setReducerClass(NewMemberReducer.class);
         job.setOutputKeyClass(StatsUserDimension.class);
         job.setOutputValueClass(MapWritableValue.class);
+
+        // 设置自定义outputformat
         job.setOutputFormatClass(TransformerOutputFormat.class);
         if (job.waitForCompletion(true)) {
-            // 执行成功, 需要计算总用户
-            this.calculateTotalUsers(conf);
+            // job运行成功
+            this.calculateTotalMembers(job.getConfiguration());
             return 0;
         } else {
+            // job运行失败
             return -1;
         }
     }
 
     /**
-     * 计算总用户
-     *
+     * 计算总会员
+     * 
      * @param conf
      */
-    private void calculateTotalUsers(Configuration conf) {
+    private void calculateTotalMembers(Configuration conf) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -160,31 +154,31 @@ public class NewInstallUserRunner implements Tool {
 
             // 开始更新stats_user
             if (yesterdayDimensionId > -1) {
-                pstmt = conn.prepareStatement("select `platform_dimension_id`,`total_install_users` from `stats_user` where `date_dimension_id`=?");
+                pstmt = conn.prepareStatement("select `platform_dimension_id`,`total_members` from `stats_user` where `date_dimension_id`=?");
                 pstmt.setInt(1, yesterdayDimensionId);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     int platformId = rs.getInt("platform_dimension_id");
-                    int totalUsers = rs.getInt("total_install_users");
-                    oldValueMap.put("" + platformId, totalUsers);
+                    int totalMembers = rs.getInt("total_members");
+                    oldValueMap.put("" + platformId, totalMembers);
                 }
             }
 
             // 添加今天的总用户
-            pstmt = conn.prepareStatement("select `platform_dimension_id`,`new_install_users` from `stats_user` where `date_dimension_id`=?");
+            pstmt = conn.prepareStatement("select `platform_dimension_id`,`new_members` from `stats_user` where `date_dimension_id`=?");
             pstmt.setInt(1, todayDimensionId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 int platformId = rs.getInt("platform_dimension_id");
-                int newUsers = rs.getInt("new_install_users");
+                int newMembers = rs.getInt("new_members");
                 if (oldValueMap.containsKey("" + platformId)) {
-                    newUsers += oldValueMap.get("" + platformId);
+                    newMembers += oldValueMap.get("" + platformId);
                 }
-                oldValueMap.put("" + platformId, newUsers);
+                oldValueMap.put("" + platformId, newMembers);
             }
 
             // 更新操作
-            pstmt = conn.prepareStatement("INSERT INTO `stats_user`(`platform_dimension_id`,`date_dimension_id`,`total_install_users`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `total_install_users` = ?");
+            pstmt = conn.prepareStatement("INSERT INTO `stats_user`(`platform_dimension_id`,`date_dimension_id`,`total_members`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `total_members` = ?");
             for (Map.Entry<String, Integer> entry : oldValueMap.entrySet()) {
                 pstmt.setInt(1, Integer.valueOf(entry.getKey()));
                 pstmt.setInt(2, todayDimensionId);
@@ -196,34 +190,34 @@ public class NewInstallUserRunner implements Tool {
          // 开始更新stats_device_browser
             oldValueMap.clear();
             if (yesterdayDimensionId > -1) {
-                pstmt = conn.prepareStatement("select `platform_dimension_id`,`browser_dimension_id`,`total_install_users` from `stats_device_browser` where `date_dimension_id`=?");
+                pstmt = conn.prepareStatement("select `platform_dimension_id`,`browser_dimension_id`,`total_members` from `stats_device_browser` where `date_dimension_id`=?");
                 pstmt.setInt(1, yesterdayDimensionId);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     int platformId = rs.getInt("platform_dimension_id");
                     int browserId = rs.getInt("browser_dimension_id");
-                    int totalUsers = rs.getInt("total_install_users");
-                    oldValueMap.put(platformId + "_" + browserId, totalUsers);
+                    int totalMembers = rs.getInt("total_members");
+                    oldValueMap.put(platformId + "_" + browserId, totalMembers);
                 }
             }
 
             // 添加今天的总用户
-            pstmt = conn.prepareStatement("select `platform_dimension_id`,`browser_dimension_id`,`new_install_users` from `stats_device_browser` where `date_dimension_id`=?");
+            pstmt = conn.prepareStatement("select `platform_dimension_id`,`browser_dimension_id`,`new_members` from `stats_device_browser` where `date_dimension_id`=?");
             pstmt.setInt(1, todayDimensionId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 int platformId = rs.getInt("platform_dimension_id");
                 int browserId = rs.getInt("browser_dimension_id");
-                int newUsers = rs.getInt("new_install_users");
+                int newMembers = rs.getInt("new_members");
                 String key = platformId + "_" + browserId;
                 if (oldValueMap.containsKey(key)) {
-                    newUsers += oldValueMap.get(key);
+                    newMembers += oldValueMap.get(key);
                 }
-                oldValueMap.put(key, newUsers);
+                oldValueMap.put(key, newMembers);
             }
 
             // 更新操作
-            pstmt = conn.prepareStatement("INSERT INTO `stats_device_browser`(`platform_dimension_id`,`browser_dimension_id`,`date_dimension_id`,`total_install_users`) VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `total_install_users` = ?");
+            pstmt = conn.prepareStatement("INSERT INTO `stats_device_browser`(`platform_dimension_id`,`browser_dimension_id`,`date_dimension_id`,`total_members`) VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `total_members` = ?");
             for (Map.Entry<String, Integer> entry : oldValueMap.entrySet()) {
                 String[] key = entry.getKey().split("_");
                 pstmt.setInt(1, Integer.valueOf(key[0]));
@@ -233,7 +227,7 @@ public class NewInstallUserRunner implements Tool {
                 pstmt.setInt(5, entry.getValue());
                 pstmt.execute();
             }
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -241,7 +235,7 @@ public class NewInstallUserRunner implements Tool {
 
     /**
      * 处理参数
-     *
+     * 
      * @param conf
      * @param args
      */
@@ -266,7 +260,7 @@ public class NewInstallUserRunner implements Tool {
 
     /**
      * 初始化scan集合
-     *
+     * 
      * @param job
      * @return
      */
@@ -277,17 +271,20 @@ public class NewInstallUserRunner implements Tool {
         String date = conf.get(GlobalConstants.RUNNING_DATE_PARAMES);
         long startDate = TimeUtil.parseString2Long(date);
         long endDate = startDate + GlobalConstants.DAY_OF_MILLISECONDS;
-        FileUtils.writeToFile("startDate=" + startDate + "|endDate=" + endDate , true);
+
         Scan scan = new Scan();
         // 定义hbase扫描的开始rowkey和结束rowkey
         scan.setStartRow(Bytes.toBytes("" + startDate));
         scan.setStopRow(Bytes.toBytes("" + endDate));
 
         FilterList filterList = new FilterList();
-        // 过滤数据，只分析launch事件
-        filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(EventLogConstants.EVENT_LOGS_FAMILY_NAME), Bytes.toBytes(EventLogConstants.LOG_COLUMN_NAME_EVENT_NAME), CompareOp.EQUAL, Bytes.toBytes(EventLogConstants.EventEnum.LAUNCH.alias)));
         // 定义mapper中需要获取的列名
-        String[] columns = new String[] { EventLogConstants.LOG_COLUMN_NAME_EVENT_NAME, EventLogConstants.LOG_COLUMN_NAME_UUID, EventLogConstants.LOG_COLUMN_NAME_SERVER_TIME, EventLogConstants.LOG_COLUMN_NAME_PLATFORM, EventLogConstants.LOG_COLUMN_NAME_BROWSER_NAME, EventLogConstants.LOG_COLUMN_NAME_BROWSER_VERSION };
+        String[] columns = new String[] { EventLogConstants.LOG_COLUMN_NAME_MEMBER_ID, // 会员id
+                EventLogConstants.LOG_COLUMN_NAME_SERVER_TIME, // 服务器时间
+                EventLogConstants.LOG_COLUMN_NAME_PLATFORM, // 平台名称
+                EventLogConstants.LOG_COLUMN_NAME_BROWSER_NAME, // 浏览器名称
+                EventLogConstants.LOG_COLUMN_NAME_BROWSER_VERSION // 浏览器版本信息
+        };
         filterList.addFilter(this.getColumnFilter(columns));
 
         scan.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, Bytes.toBytes(EventLogConstants.HBASE_NAME_EVENT_LOGS));
@@ -297,7 +294,7 @@ public class NewInstallUserRunner implements Tool {
 
     /**
      * 获取这个列名过滤的column
-     *
+     * 
      * @param columns
      * @return
      */

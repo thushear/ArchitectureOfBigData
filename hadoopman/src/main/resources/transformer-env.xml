@@ -18,11 +18,11 @@
 
 	<property>
 	  <name>mysql.report.username</name>
-	  <value>test</value>
+	  <value>hadoop</value>
 	</property>	
 
 	<property>
 	  <name>mysql.report.password</name>
-	  <value>123456</value>
+	  <value>123</value>
 	</property>	
 </configuration>

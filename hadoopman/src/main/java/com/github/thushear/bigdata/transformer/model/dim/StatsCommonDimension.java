@@ -140,4 +140,12 @@ public class StatsCommonDimension extends StatsDimension {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "StatsCommonDimension{" +
+                "date=" + date +
+                ", platform=" + platform +
+                ", kpi=" + kpi +
+                '}';
+    }
 }

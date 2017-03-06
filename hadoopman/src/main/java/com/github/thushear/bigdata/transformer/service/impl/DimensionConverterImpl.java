@@ -17,9 +17,9 @@ import org.apache.log4j.Logger;
 public class DimensionConverterImpl implements IDimensionConverter {
     private static final Logger logger = Logger.getLogger(DimensionConverterImpl.class);
     private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://hh:3306/report";
-    private static final String USERNAME = "hive";
-    private static final String PASSWORD = "hive";
+    private static final String URL = "jdbc:mysql://mesos-slave2.com:3306/report";
+    private static final String USERNAME = "hadoop";
+    private static final String PASSWORD = "123";
     private Map<String, Integer> cache = new LinkedHashMap<String, Integer>() {
         private static final long serialVersionUID = 8894507016522723685L;
 

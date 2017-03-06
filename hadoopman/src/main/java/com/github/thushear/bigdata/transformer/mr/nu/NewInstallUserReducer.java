@@ -8,6 +8,7 @@ import com.github.thushear.bigdata.common.KpiType;
 import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
 import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
 import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.util.FileUtils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -45,6 +46,7 @@ public class NewInstallUserReducer extends Reducer<StatsUserDimension, TimeOutpu
             // 计算stats_device_browser表中的新增用户
             outputValue.setKpi(KpiType.BROWSER_NEW_INSTALL_USER);
         }
+        FileUtils.writeToFile("outputValue=" + outputValue + "|key= " + key , true);
         context.write(key, outputValue);
     }
 }

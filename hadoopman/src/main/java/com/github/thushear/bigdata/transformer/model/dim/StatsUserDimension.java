@@ -84,4 +84,11 @@ public class StatsUserDimension extends StatsDimension {
         return tmp;
     }
 
+    @Override
+    public String toString() {
+        return "StatsUserDimension{" +
+                "statsCommon=" + statsCommon +
+                ", browser=" + browser +
+                '}';
+    }
 }

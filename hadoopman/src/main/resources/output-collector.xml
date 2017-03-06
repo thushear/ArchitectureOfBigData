@@ -13,12 +13,12 @@
 
 	<property>
 		<name>collector_active_user</name>
-		<value>com.beifeng.transformer.mr.au.ActiveUserCollector</value>
+		<value>com.github.thushear.bigdata.transformer.mr.au.ActiveUserCollector</value>
 	</property>
 
 	<property>
 		<name>collector_browser_active_user</name>
-		<value>com.beifeng.transformer.mr.au.ActiveUserBrowserCollector</value>
+		<value>com.github.thushear.bigdata.transformer.mr..au.ActiveUserBrowserCollector</value>
 	</property>
 
 	<property>
