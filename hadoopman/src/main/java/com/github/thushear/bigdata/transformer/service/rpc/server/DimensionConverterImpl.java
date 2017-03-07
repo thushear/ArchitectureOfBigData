@@ -1,19 +1,32 @@
-package com.github.thushear.bigdata.transformer.service.impl;
+package com.github.thushear.bigdata.transformer.service.rpc.server;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
-import com.github.thushear.bigdata.transformer.model.dim.base.BrowserDimension;
-import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
-import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
-import com.github.thushear.bigdata.transformer.service.IDimensionConverter;
+import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.log4j.Logger;
 
+import com.beifeng.transformer.model.dim.base.BaseDimension;
+import com.beifeng.transformer.model.dim.base.BrowserDimension;
+import com.beifeng.transformer.model.dim.base.DateDimension;
+import com.beifeng.transformer.model.dim.base.KpiDimension;
+import com.beifeng.transformer.model.dim.base.LocationDimension;
+import com.beifeng.transformer.model.dim.base.PlatformDimension;
+import com.beifeng.transformer.service.rpc.IDimensionConverter;
+import com.mysql.jdbc.Statement;
 
-
+/**
+ * 实现操作dimension类
+ * @author gerry
+ *
+ */
 public class DimensionConverterImpl implements IDimensionConverter {
     private static final Logger logger = Logger.getLogger(DimensionConverterImpl.class);
     private static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -38,7 +51,7 @@ public class DimensionConverterImpl implements IDimensionConverter {
 
     @Override
     public int getDimensionIdByValue(BaseDimension dimension) throws IOException {
-        String cacheKey = this.buildCacheKey(dimension); // 获取cache key
+        String cacheKey = DimensionConverterImpl.buildCacheKey(dimension); // 获取cache key
         if (this.cache.containsKey(cacheKey)) {
             return this.cache.get(cacheKey);
         }
@@ -54,6 +67,10 @@ public class DimensionConverterImpl implements IDimensionConverter {
                 sql = this.buildPlatformSql();
             } else if (dimension instanceof BrowserDimension) {
                 sql = this.buildBrowserSql();
+            } else if (dimension instanceof KpiDimension) {
+                sql = this.buildKpiSql();
+            } else if (dimension instanceof LocationDimension) {
+                sql = this.buildLocationSql();
             } else {
                 throw new IOException("不支持此dimensionid的获取:" + dimension.getClass());
             }
@@ -94,7 +111,7 @@ public class DimensionConverterImpl implements IDimensionConverter {
      * @param dimension
      * @return
      */
-    private String buildCacheKey(BaseDimension dimension) {
+    public static String buildCacheKey(BaseDimension dimension) {
         StringBuilder sb = new StringBuilder();
         if (dimension instanceof DateDimension) {
             sb.append("date_dimension");
@@ -109,6 +126,14 @@ public class DimensionConverterImpl implements IDimensionConverter {
             sb.append("browser_dimension");
             BrowserDimension browser = (BrowserDimension) dimension;
             sb.append(browser.getBrowserName()).append(browser.getBrowserVersion());
+        } else if (dimension instanceof KpiDimension) {
+            sb.append("kpi_dimension");
+            KpiDimension kpi = (KpiDimension) dimension;
+            sb.append(kpi.getKpiName());
+        } else if (dimension instanceof LocationDimension) {
+            sb.append("location_dimension");
+            LocationDimension location = (LocationDimension) dimension;
+            sb.append(location.getCountry()).append(location.getProvince()).append(location.getCity());
         }
 
         if (sb.length() == 0) {
@@ -142,6 +167,14 @@ public class DimensionConverterImpl implements IDimensionConverter {
             BrowserDimension browser = (BrowserDimension) dimension;
             pstmt.setString(++i, browser.getBrowserName());
             pstmt.setString(++i, browser.getBrowserVersion());
+        } else if (dimension instanceof KpiDimension) {
+            KpiDimension kpi = (KpiDimension) dimension;
+            pstmt.setString(++i, kpi.getKpiName());
+        } else if (dimension instanceof LocationDimension) {
+            LocationDimension location = (LocationDimension) dimension;
+            pstmt.setString(++i, location.getCountry());
+            pstmt.setString(++i, location.getProvince());
+            pstmt.setString(++i, location.getCity());
         }
     }
 
@@ -175,6 +208,28 @@ public class DimensionConverterImpl implements IDimensionConverter {
     private String[] buildBrowserSql() {
         String querySql = "SELECT `id` FROM `dimension_browser` WHERE `browser_name` = ? AND `browser_version` = ?";
         String insertSql = "INSERT INTO `dimension_browser`(`browser_name`, `browser_version`) VALUES(?, ?)";
+        return new String[] { querySql, insertSql };
+    }
+
+    /**
+     * 创建kpi dimension相关sql
+     *
+     * @return
+     */
+    private String[] buildKpiSql() {
+        String querySql = "SELECT `id` FROM `dimension_kpi` WHERE `kpi_name` = ?";
+        String insertSql = "INSERT INTO `dimension_kpi`(`kpi_name`) VALUES(?)";
+        return new String[] { querySql, insertSql };
+    }
+
+    /**
+     * 创建location dimension相关sql
+     *
+     * @return
+     */
+    private String[] buildLocationSql() {
+        String querySql = "SELECT `id` FROM `dimension_location` WHERE `country` = ? AND `province` = ? AND `city` = ?";
+        String insertSql = "INSERT INTO `dimension_location`(`country`,`province`,`city`) VALUES(?,?,?)";
         return new String[] { querySql, insertSql };
     }
 
@@ -226,5 +281,15 @@ public class DimensionConverterImpl implements IDimensionConverter {
             }
         }
         throw new RuntimeException("从数据库获取id失败");
+    }
+
+    @Override
+    public long getProtocolVersion(String protocol, long clientVersion) throws IOException {
+        return IDimensionConverter.versionID;
+    }
+
+    @Override
+    public ProtocolSignature getProtocolSignature(String protocol, long clientVersion, int clientMethodsHash) throws IOException {
+        return null;
     }
 }

@@ -17,6 +17,7 @@ import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
 import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
 import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
 import com.github.thushear.bigdata.transformer.mr.TransformerOutputFormat;
+import com.github.thushear.bigdata.util.FileUtils;
 import com.github.thushear.bigdata.util.JdbcManager;
 import com.github.thushear.bigdata.util.TimeUtil;
 import org.apache.commons.lang.StringUtils;
@@ -276,7 +277,7 @@ public class NewInstallUserRunner implements Tool {
         String date = conf.get(GlobalConstants.RUNNING_DATE_PARAMES);
         long startDate = TimeUtil.parseString2Long(date);
         long endDate = startDate + GlobalConstants.DAY_OF_MILLISECONDS;
-
+        FileUtils.writeToFile("startDate=" + startDate + "|endDate=" + endDate , true);
         Scan scan = new Scan();
         // 定义hbase扫描的开始rowkey和结束rowkey
         scan.setStartRow(Bytes.toBytes("" + startDate));

@@ -13,6 +13,7 @@ import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
 import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
 import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
 import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
+import com.github.thushear.bigdata.util.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
@@ -38,6 +39,10 @@ public class NewInstallUserMapper extends TableMapper<StatsUserDimension, TimeOu
 
     @Override
     protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException {
+        FileUtils.writeToFile("value=" + value.toString() , true);
+        //{1449917532123_21778064/info:browser/1488474232158/Put/vlen=6/mvcc=0, 1449917532123_21778064/info:browser_v/1488474232158/Put/v21778064/info:en/1488474232158/Put/vlen=3/mvcc=0,
+        // 1449917532123_21778064/info:pl/1488474232158/Put/vlen=7/mvcc=0, 144991753212313/mvcc=0, 1449917532123_21778064/info:u_ud/1488474232158/Put/vlen=36/mvcc=0}
+
         String uuid = Bytes.toString(value.getValue(family, Bytes.toBytes(EventLogConstants.LOG_COLUMN_NAME_UUID)));
         String serverTime = Bytes.toString(value.getValue(family, Bytes.toBytes(EventLogConstants.LOG_COLUMN_NAME_SERVER_TIME)));
         String platform = Bytes.toString(value.getValue(family, Bytes.toBytes(EventLogConstants.LOG_COLUMN_NAME_PLATFORM)));
@@ -66,6 +71,7 @@ public class NewInstallUserMapper extends TableMapper<StatsUserDimension, TimeOu
             // statsUserDimension.getBrowser().clean();
             statsCommonDimension.setKpi(newInstallUserKpi);
             statsCommonDimension.setPlatform(pf);
+            FileUtils.writeToFile("statsUserDimension=" + statsUserDimension + "|timeOutputValue= " + timeOutputValue , true);
             context.write(statsUserDimension, timeOutputValue);
             for (BrowserDimension br : browserDimensions) {
                 statsCommonDimension.setKpi(newInstallUserOfBrowserKpi);

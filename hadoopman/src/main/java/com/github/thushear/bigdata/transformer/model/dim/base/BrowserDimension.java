@@ -159,4 +159,13 @@ public class BrowserDimension extends BaseDimension {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "BrowserDimension{" +
+                "id=" + id +
+                ", browserName='" + browserName + '\'' +
+                ", browserVersion='" + browserVersion + '\'' +
+                '}';
+    }
 }

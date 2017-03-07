@@ -196,4 +196,9 @@ public class TimeUtil {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis();
     }
+
+
+    public static void main(String[] args) {
+        System.out.println(new Date().getTime());
+    }
 }

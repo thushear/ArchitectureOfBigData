@@ -94,4 +94,12 @@ public class KpiDimension extends BaseDimension {
         return true;
     }
 
+
+    @Override
+    public String toString() {
+        return "KpiDimension{" +
+                "id=" + id +
+                ", kpiName='" + kpiName + '\'' +
+                '}';
+    }
 }

@@ -117,4 +117,11 @@ public class PlatformDimension extends BaseDimension {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "PlatformDimension{" +
+                "id=" + id +
+                ", platformName='" + platformName + '\'' +
+                '}';
+    }
 }

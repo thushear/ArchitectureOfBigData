@@ -47,4 +47,11 @@ public class TimeOutputValue extends BaseStatsValueWritable {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "TimeOutputValue{" +
+                "id='" + id + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }
