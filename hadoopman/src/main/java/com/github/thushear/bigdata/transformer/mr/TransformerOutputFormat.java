@@ -7,14 +7,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.thushear.bigdata.common.GlobalConstants;
-import com.github.thushear.bigdata.common.KpiType;
-import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
-import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
-import com.github.thushear.bigdata.transformer.service.IDimensionConverter;
-import com.github.thushear.bigdata.transformer.service.impl.DimensionConverterImpl;
-import com.github.thushear.bigdata.util.FileUtils;
-import com.github.thushear.bigdata.util.JdbcManager;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.OutputCommitter;
@@ -25,6 +17,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.log4j.Logger;
 
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.transformer.service.rpc.client.DimensionConverterClient;
+import com.github.thushear.bigdata.util.JdbcManager;
 
 /**
  * 自定义输出到mysql的outputformat类
@@ -39,7 +38,7 @@ public class TransformerOutputFormat extends OutputFormat<BaseDimension, BaseSta
     public RecordWriter<BaseDimension, BaseStatsValueWritable> getRecordWriter(TaskAttemptContext context) throws IOException, InterruptedException {
         Configuration conf = context.getConfiguration();
         Connection conn = null;
-        IDimensionConverter converter = new DimensionConverterImpl();
+        IDimensionConverter converter = DimensionConverterClient.createDimensionConverter(conf);
         try {
             conn = JdbcManager.getConnection(conf, GlobalConstants.WAREHOUSE_OF_REPORT);
             conn.setAutoCommit(false);
@@ -100,12 +99,12 @@ public class TransformerOutputFormat extends OutputFormat<BaseDimension, BaseSta
                     count++;
                 }
                 batch.put(kpi, count); // 批量次数的存储
-                FileUtils.writeToFile("batch=" + batch  , true);
+
                 String collectorName = conf.get(GlobalConstants.OUTPUT_COLLECTOR_KEY_PREFIX + kpi.name);
                 Class<?> clazz = Class.forName(collectorName);
                 IOutputCollector collector = (IOutputCollector) clazz.newInstance();
                 collector.collect(conf, key, value, pstmt, converter);
-                FileUtils.writeToFile("pstmt=" + pstmt  , true);
+
                 if (count % Integer.valueOf(conf.get(GlobalConstants.JDBC_BATCH_NUMBER, GlobalConstants.DEFAULT_JDBC_BATCH_NUMBER)) == 0) {
                     pstmt.executeBatch();
                     conn.commit();
@@ -141,14 +140,18 @@ public class TransformerOutputFormat extends OutputFormat<BaseDimension, BaseSta
                             // nothing
                         }
                     }
-                    if (conn != null)
+                    if (conn != null) {
                         try {
                             conn.close();
                         } catch (Exception e) {
                             // nothing
                         }
+                    }
                 }
             }
+
+            // 关闭rpc连接
+            DimensionConverterClient.stopDimensionConverterProxy(this.converter);
         }
 
     }

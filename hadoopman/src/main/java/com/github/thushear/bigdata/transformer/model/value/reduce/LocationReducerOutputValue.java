@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.WritableUtils;
 
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
 
 /**
  * 自定义location统计reducer的输出value类

@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.apache.hadoop.mapreduce.Reducer;
 
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsLocationDimension;
-import com.beifeng.transformer.model.value.map.TextsOutputValue;
-import com.beifeng.transformer.model.value.reduce.LocationReducerOutputValue;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsLocationDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TextsOutputValue;
+import com.github.thushear.bigdata.transformer.model.value.reduce.LocationReducerOutputValue;
 
 /**
  * 统计location维度指标的reducer类

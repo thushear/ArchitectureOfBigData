@@ -6,10 +6,10 @@ import java.util.Set;
 
 import org.apache.hadoop.mapreduce.Reducer;
 
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsInboundDimension;
-import com.beifeng.transformer.model.value.map.TextsOutputValue;
-import com.beifeng.transformer.model.value.reduce.InboundReduceValue;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsInboundDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TextsOutputValue;
+import com.github.thushear.bigdata.transformer.model.value.reduce.InboundReduceValue;
 
 /**
  * 计算reducer类

@@ -8,16 +8,16 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.DateEnum;
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsCommonDimension;
-import com.beifeng.transformer.model.dim.StatsLocationDimension;
-import com.beifeng.transformer.model.dim.base.DateDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.dim.base.LocationDimension;
-import com.beifeng.transformer.model.dim.base.PlatformDimension;
-import com.beifeng.transformer.model.value.map.TextsOutputValue;
-import com.beifeng.transformer.mr.TransformerBaseMapper;
+import com.github.thushear.bigdata.common.DateEnum;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsCommonDimension;
+import com.github.thushear.bigdata.transformer.model.dim.StatsLocationDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.LocationDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TextsOutputValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseMapper;
 
 /**
  * 统计location维度信息的mapper类<br/>

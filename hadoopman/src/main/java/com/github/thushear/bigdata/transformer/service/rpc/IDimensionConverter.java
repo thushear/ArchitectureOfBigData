@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.ipc.VersionedProtocol;
 
-import com.beifeng.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
 
 /**
  * 提供专门操作dimension表的接口

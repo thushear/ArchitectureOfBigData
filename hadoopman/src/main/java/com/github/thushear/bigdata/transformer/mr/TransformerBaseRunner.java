@@ -21,9 +21,9 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.EventLogConstants;
-import com.beifeng.common.GlobalConstants;
-import com.beifeng.util.TimeUtil;
+import com.github.thushear.bigdata.common.EventLogConstants;
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.util.TimeUtil;
 import com.google.common.collect.Lists;
 
 /**

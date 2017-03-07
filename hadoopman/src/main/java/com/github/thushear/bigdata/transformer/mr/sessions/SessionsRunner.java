@@ -4,11 +4,11 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.EventLogConstants;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.value.map.TimeOutputValue;
-import com.beifeng.transformer.model.value.reduce.MapWritableValue;
-import com.beifeng.transformer.mr.TransformerBaseRunner;
+import com.github.thushear.bigdata.common.EventLogConstants;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
+import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseRunner;
 
 /**
  * 计算会话信息的入口执行类

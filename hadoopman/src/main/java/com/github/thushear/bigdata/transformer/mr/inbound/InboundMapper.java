@@ -11,17 +11,17 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.DateEnum;
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsCommonDimension;
-import com.beifeng.transformer.model.dim.StatsInboundDimension;
-import com.beifeng.transformer.model.dim.base.DateDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.dim.base.PlatformDimension;
-import com.beifeng.transformer.model.value.map.TextsOutputValue;
-import com.beifeng.transformer.mr.TransformerBaseMapper;
-import com.beifeng.transformer.service.impl.InboundDimensionService;
-import com.beifeng.transformer.util.UrlUtil;
+import com.github.thushear.bigdata.common.DateEnum;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsCommonDimension;
+import com.github.thushear.bigdata.transformer.model.dim.StatsInboundDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TextsOutputValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseMapper;
+import com.github.thushear.bigdata.transformer.service.impl.InboundDimensionService;
+import com.github.thushear.bigdata.transformer.util.UrlUtil;
 
 /**
  * 统计inbound相关的活跃用户和总会话个数的一个mapper类<br/>

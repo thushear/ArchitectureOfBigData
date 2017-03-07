@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 
-import com.beifeng.common.GlobalConstants;
-import com.beifeng.util.JdbcManager;
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.util.JdbcManager;
 
 /**
  * 操作dimension_inbound表的服务提供类

@@ -7,9 +7,9 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
 
 /**
  * 统计website的page view数量的reducer类<br/>

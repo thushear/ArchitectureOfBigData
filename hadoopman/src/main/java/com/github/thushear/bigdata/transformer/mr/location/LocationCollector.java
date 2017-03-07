@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 import org.apache.hadoop.conf.Configuration;
 
-import com.beifeng.common.GlobalConstants;
-import com.beifeng.transformer.model.dim.StatsLocationDimension;
-import com.beifeng.transformer.model.dim.base.BaseDimension;
-import com.beifeng.transformer.model.value.BaseStatsValueWritable;
-import com.beifeng.transformer.model.value.reduce.LocationReducerOutputValue;
-import com.beifeng.transformer.mr.IOutputCollector;
-import com.beifeng.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.transformer.model.dim.StatsLocationDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.transformer.model.value.reduce.LocationReducerOutputValue;
+import com.github.thushear.bigdata.transformer.mr.IOutputCollector;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
 
 public class LocationCollector implements IOutputCollector {
 

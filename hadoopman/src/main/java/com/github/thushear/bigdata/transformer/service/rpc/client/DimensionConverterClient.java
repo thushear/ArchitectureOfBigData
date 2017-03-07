@@ -13,10 +13,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.hadoop.ipc.RPC;
 
-import com.beifeng.transformer.model.dim.base.BaseDimension;
-import com.beifeng.transformer.service.rpc.IDimensionConverter;
-import com.beifeng.transformer.service.rpc.server.DimensionConverterImpl;
-import com.beifeng.transformer.service.rpc.server.DimensionConverterServer;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.transformer.service.rpc.server.DimensionConverterImpl;
+import com.github.thushear.bigdata.transformer.service.rpc.server.DimensionConverterServer;
 
 /**
  * 操作dimensionConverter相关服务的client端工具类

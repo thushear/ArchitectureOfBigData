@@ -13,13 +13,13 @@ import java.util.Map;
 import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.log4j.Logger;
 
-import com.beifeng.transformer.model.dim.base.BaseDimension;
-import com.beifeng.transformer.model.dim.base.BrowserDimension;
-import com.beifeng.transformer.model.dim.base.DateDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.dim.base.LocationDimension;
-import com.beifeng.transformer.model.dim.base.PlatformDimension;
-import com.beifeng.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BrowserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.LocationDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
 import com.mysql.jdbc.Statement;
 
 /**

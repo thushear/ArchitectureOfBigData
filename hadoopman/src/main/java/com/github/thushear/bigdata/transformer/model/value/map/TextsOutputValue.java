@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
 
 /**
  * 定义一系列的字符串输出类

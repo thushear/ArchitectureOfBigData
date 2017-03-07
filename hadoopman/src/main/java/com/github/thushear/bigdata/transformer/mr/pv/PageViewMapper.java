@@ -9,15 +9,15 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.DateEnum;
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsCommonDimension;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.dim.base.BrowserDimension;
-import com.beifeng.transformer.model.dim.base.DateDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.dim.base.PlatformDimension;
-import com.beifeng.transformer.mr.TransformerBaseMapper;
+import com.github.thushear.bigdata.common.DateEnum;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsCommonDimension;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BrowserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseMapper;
 
 /**
  * 统计pv的mapper类<br/>

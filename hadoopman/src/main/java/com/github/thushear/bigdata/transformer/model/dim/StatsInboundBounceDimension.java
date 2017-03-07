@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.beifeng.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
 
 /**
  * 统计inbound的跳出会话维度类

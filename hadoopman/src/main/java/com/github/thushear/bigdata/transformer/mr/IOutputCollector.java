@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
-import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
-import com.github.thushear.bigdata.transformer.service.IDimensionConverter;
 import org.apache.hadoop.conf.Configuration;
 
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
 
 /**
  * 自定义的配合自定义output进行具体sql输出的类

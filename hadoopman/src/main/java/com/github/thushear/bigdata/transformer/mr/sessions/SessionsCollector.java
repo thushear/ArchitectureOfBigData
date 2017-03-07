@@ -8,14 +8,14 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 
-import com.beifeng.common.GlobalConstants;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.dim.base.BaseDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.value.BaseStatsValueWritable;
-import com.beifeng.transformer.model.value.reduce.MapWritableValue;
-import com.beifeng.transformer.mr.IOutputCollector;
-import com.beifeng.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
+import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.transformer.mr.IOutputCollector;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
 
 public class SessionsCollector implements IOutputCollector {
 

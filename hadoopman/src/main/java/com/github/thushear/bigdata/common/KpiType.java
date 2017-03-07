@@ -16,6 +16,15 @@ public enum KpiType {
     NEW_MEMBER("new_member"), // 统计新增会员kpi
     BROWSER_NEW_MEMBER("browser_new_member"), // 统计浏览器维度新增会员kpi
     INSERT_MEMBER_INFO("insert_member_info"), // 插入会员信息kpi
+    SESSIONS("sessions"), // 统计会话kpi
+    BROWSER_SESSIONS("browser_sessions"), // 统计浏览器维度会话kpi
+    HOURLY_ACTIVE_USER("hourly_active_user"), // 按小时统计活跃用户kpi
+    HOURLY_SESSIONS("hourly_sessions"), // 按小时统计会话格式kpi
+    HOURLY_SESSIONS_LENGTH("hourly_sessions_length"), // 按小时统计会话长度kpi
+    WEBSITE_PAGEVIEW("website_pageview"), // 统计浏览器维度的pv kpi
+    LOCATION("location"), // 统计地域信息维度的kpi
+    INBOUND("inbound"), // 统计inbound维度信息的kpi
+    INBOUND_BOUNCE("inbound_bounce"), //统计inbound维度下的跳出会话kpi
     ;
 
     public final String name;

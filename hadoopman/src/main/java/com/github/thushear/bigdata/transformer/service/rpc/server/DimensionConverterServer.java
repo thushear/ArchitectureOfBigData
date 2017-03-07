@@ -13,7 +13,7 @@ import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.ipc.Server;
 import org.apache.log4j.Logger;
 
-import com.beifeng.transformer.service.rpc.IDimensionConverter;
+import com.github.thushear.bigdata.transformer.service.rpc.IDimensionConverter;
 
 /**
  * IDimensionConverter服务接口的启动类

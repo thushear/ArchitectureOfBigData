@@ -8,16 +8,16 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.DateEnum;
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsCommonDimension;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.dim.base.BrowserDimension;
-import com.beifeng.transformer.model.dim.base.DateDimension;
-import com.beifeng.transformer.model.dim.base.KpiDimension;
-import com.beifeng.transformer.model.dim.base.PlatformDimension;
-import com.beifeng.transformer.model.value.map.TimeOutputValue;
-import com.beifeng.transformer.mr.TransformerBaseMapper;
+import com.github.thushear.bigdata.common.DateEnum;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsCommonDimension;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.BrowserDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.DateDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.KpiDimension;
+import com.github.thushear.bigdata.transformer.model.dim.base.PlatformDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseMapper;
 
 public class SessionsMapper extends TransformerBaseMapper<StatsUserDimension, TimeOutputValue> {
     private static final Logger logger = Logger.getLogger(SessionsMapper.class);

@@ -8,14 +8,14 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
-import com.beifeng.common.DateEnum;
-import com.beifeng.common.GlobalConstants;
-import com.beifeng.common.KpiType;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.value.map.TimeOutputValue;
-import com.beifeng.transformer.model.value.reduce.MapWritableValue;
-import com.beifeng.transformer.util.TimeChain;
-import com.beifeng.util.TimeUtil;
+import com.github.thushear.bigdata.common.DateEnum;
+import com.github.thushear.bigdata.common.GlobalConstants;
+import com.github.thushear.bigdata.common.KpiType;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TimeOutputValue;
+import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.transformer.util.TimeChain;
+import com.github.thushear.bigdata.util.TimeUtil;
 
 /**
  * 计算会话个数和会话时长的一个reducer类

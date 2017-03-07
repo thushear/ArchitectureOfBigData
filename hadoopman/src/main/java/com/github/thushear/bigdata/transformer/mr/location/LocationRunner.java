@@ -7,12 +7,12 @@ import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.EventLogConstants;
-import com.beifeng.common.EventLogConstants.EventEnum;
-import com.beifeng.transformer.model.dim.StatsLocationDimension;
-import com.beifeng.transformer.model.value.map.TextsOutputValue;
-import com.beifeng.transformer.model.value.reduce.LocationReducerOutputValue;
-import com.beifeng.transformer.mr.TransformerBaseRunner;
+import com.github.thushear.bigdata.common.EventLogConstants;
+import com.github.thushear.bigdata.common.EventLogConstants.EventEnum;
+import com.github.thushear.bigdata.transformer.model.dim.StatsLocationDimension;
+import com.github.thushear.bigdata.transformer.model.value.map.TextsOutputValue;
+import com.github.thushear.bigdata.transformer.model.value.reduce.LocationReducerOutputValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseRunner;
 
 /**
  * 统计location维度信息的入口类

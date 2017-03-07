@@ -8,10 +8,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.log4j.Logger;
 
-import com.beifeng.common.EventLogConstants;
-import com.beifeng.transformer.model.dim.StatsUserDimension;
-import com.beifeng.transformer.model.value.reduce.MapWritableValue;
-import com.beifeng.transformer.mr.TransformerBaseRunner;
+import com.github.thushear.bigdata.common.EventLogConstants;
+import com.github.thushear.bigdata.transformer.model.dim.StatsUserDimension;
+import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
+import com.github.thushear.bigdata.transformer.mr.TransformerBaseRunner;
 
 /**
  * 计算website的pv值的mapreducer入口类<br/>

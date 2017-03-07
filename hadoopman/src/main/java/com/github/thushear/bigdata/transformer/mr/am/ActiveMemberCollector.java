@@ -14,11 +14,10 @@ import com.github.thushear.bigdata.transformer.model.dim.base.BaseDimension;
 import com.github.thushear.bigdata.transformer.model.value.BaseStatsValueWritable;
 import com.github.thushear.bigdata.transformer.model.value.reduce.MapWritableValue;
 import com.github.thushear.bigdata.transformer.mr.IOutputCollector;
-import com.github.thushear.bigdata.transformer.service.IDimensionConverter;
 
 /**
  * 定义具体的active member kpi的输出类
- * 
+ *
  * @author gerry
  *
  */
