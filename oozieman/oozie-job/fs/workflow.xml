@@ -1,0 +1,35 @@
+<workflow-app name='fs-wf1' xmlns="uri:oozie:workflow:0.3">
+  <start to="fs-delete"/>
+
+  <action name="fs-delete">
+    <fs>
+      <delete path="${nameNode}/beifeng/beifeng14-0.0.1.jar"/>
+      <delete path="${nameNode}/beifeng/index"/>
+    </fs>
+    <ok to="fs-mkdir"/>
+    <error to="fail"/>
+  </action>
+
+  <action name="fs-mkdir">
+    <fs>
+      <mkdir path="${nameNode}/beifeng/18"/>
+    </fs>
+    <ok to="fs-move"/>
+    <error to="fail"/>
+  </action>
+
+  <action name="fs-move">
+    <fs>
+      <move source="${nameNode}/BF-09.1447769674855.log.tmp" target="${nameNode}/beifeng" />
+    </fs>
+    <ok to="end"/>
+    <error to="fail"/>
+  </action>
+
+  <kill name="fail">
+    <message>script failed, error message:${wf:errorMessage(wf:lastErrorNode())}</message>
+  </kill>
+
+  <end name="end"/>
+  
+</workflow-app>

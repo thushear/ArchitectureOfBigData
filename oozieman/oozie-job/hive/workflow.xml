@@ -1,0 +1,39 @@
+<workflow-app name='hive-wf1' xmlns="uri:oozie:workflow:0.3">
+  <start to="hive"/>
+
+  <action name="hive">
+    <hive xmlns="uri:oozie:hive-action:0.2">
+      <job-tracker>${jobTracker}</job-tracker>
+      <name-node>${nameNode}</name-node>
+      <configuration>
+        <property>
+          <name>oozie.hive.defaults</name>
+          <value>hive-site.xml</value>
+        </property>
+        <property>
+          <name>hive.metastore.local</name>
+          <value>false</value>
+        </property>
+        <property>
+          <name>hive.metastore.uris</name>
+          <value>thrift://hh:9083</value>
+        </property>
+        <property>
+          <name>hive.metastore.warehouse.dir</name>
+          <value>/hive</value>
+        </property>
+      </configuration>
+      <script>d.sql</script>
+    </hive>
+    <ok to="end"/>
+    <error to="fail"/>
+  </action>
+
+
+  <kill name="fail">
+    <message>script failed, error message:${wf:errorMessage(wf:lastErrorNode())}</message>
+  </kill>
+
+  <end name="end"/>
+  
+</workflow-app>

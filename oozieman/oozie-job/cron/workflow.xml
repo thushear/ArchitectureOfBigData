@@ -1,0 +1,4 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="no-op-wf">
+    <start to="end"/>
+        <end name="end"/>
+        </workflow-app>

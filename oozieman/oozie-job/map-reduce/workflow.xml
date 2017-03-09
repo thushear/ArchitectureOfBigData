@@ -1,0 +1,65 @@
+<workflow-app name='wordcount-wf2' xmlns="uri:oozie:workflow:0.3">
+  <start to="wordcount"/>
+  <action name="wordcount">
+    <map-reduce>
+    	<job-tracker>${jobTracker}</job-tracker>
+    	<name-node>${nameNode}</name-node>
+    	<!-- <prepare></prepare> -->
+    	<configuration>
+    	  <property>
+    	    <name>mapred.mapper.new-api</name>
+    	    <value>true</value>
+    	  </property>
+    	  <property>
+    	    <name>mapred.reducer.new-api</name>
+    	    <value>true</value>
+    	  </property>
+
+          <property>
+            <name>mapreduce.job.map.class</name>
+            <value>com.beifeng.mr.wordcount.WordCountMapper</value>
+          </property>
+          <property>
+            <name>mapreduce.job.reduce.class</name>
+            <value>com.beifeng.mr.wordcount.WordCountReducer</value>
+          </property>
+          <property>
+            <name>mapreduce.input.fileinputformat.inputdir</name>
+            <value>/beifeng/api</value>
+          </property>
+          <property>
+            <name>mapreduce.job.output.key.class</name>
+            <value>org.apache.hadoop.io.Text</value>
+          </property>
+          <property>
+            <name>mapreduce.job.output.value.class</name>
+            <value>org.apache.hadoop.io.LongWritable</value>
+          </property>
+          <!--
+    	  <property>
+    	    <name>mapred.job.queue.name</name>
+    	    <value>${queueName}</value>
+    	  </property>
+    	  -->
+    	  <property>
+    	    <name>mapreduce.output.fileoutputformat.outputdir</name>
+    	    <value>/beifeng/wordcount/18</value>
+    	  </property>
+    	  <property>
+    	    <name>mapreduce.job.acl-view-job</name>
+    	    <value>*</value>
+    	  </property>
+    	  <property>
+    	    <name>oozie.launcher.mapreduce.job.acl-view-job</name>
+    	    <value>*</value>
+    	  </property>
+    	</configuration>
+    </map-reduce>
+    <ok to="end"/>
+    <error to="end"/>
+  </action>
+  <kill name="kill">
+    <message>${wf:errorCode("wordcount")}</message>
+  </kill>
+  <end name="end"/>
+</workflow-app>

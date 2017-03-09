@@ -1,0 +1,25 @@
+<workflow-app name='fs-wf2' xmlns="uri:oozie:workflow:0.3">
+  <start to="decision"/>
+
+  <decision name="decision">
+    <switch>
+      <case to="fs-delete">${fs:exists("/beifeng/18")}</case>
+      <default to="end"/>
+    </switch>
+  </decision>
+
+  <action name="fs-delete">
+    <fs>
+      <delete path="${nameNode}/beifeng/18"/>
+    </fs>
+    <ok to="end"/>
+    <error to="fail"/>
+  </action>
+
+  <kill name="fail">
+    <message>script failed, error message:${wf:errorMessage(wf:lastErrorNode())}</message>
+  </kill>
+
+  <end name="end"/>
+  
+</workflow-app>
