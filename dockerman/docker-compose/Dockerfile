@@ -1,5 +1,6 @@
-FROM python:2.7
-ADD . /code
+FROM python:2.7-slim
 WORKDIR /code
-RUN pip install -r requirements.txt
-CMD python app.py
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . ./
+CMD ["python", "app.py"]
